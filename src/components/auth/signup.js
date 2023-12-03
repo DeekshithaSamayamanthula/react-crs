@@ -45,9 +45,7 @@ function Signup() {
     }
   return (
     <div>
-      <div>
-                <NavbarComponent />
-            </div>
+      
 
       <div className="container mt-4">
         <div className="row">

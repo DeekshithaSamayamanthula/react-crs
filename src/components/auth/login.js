@@ -70,7 +70,7 @@ function Login(){
                           {msg}
                       </div>
                   :''}    
-                <div className=" " style={{textAlign: "right"}}>
+                <div className="row " style={{textAlign: "center"}}>
                   <div className="col-md-6">
                     <label>Enter Username:</label>
                   </div>
@@ -79,7 +79,7 @@ function Login(){
                     onChange={(e)=>setUsername(e.target.value)}/>
                   </div>
                 </div>
-                <div className="" style={{textAlign: "right"}}>
+                <div className="row" style={{textAlign: "center"}}>
                   <div className="col-md-6">
                     <label>Enter Password:</label>
                   </div>

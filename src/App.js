@@ -7,6 +7,7 @@ import Signup from './components/auth/signup';
 import BookCar from './components/customer/components/bookcar';
 import Cars from './components/customer/components/cars';
 import CustomerDashboard from './components/customer/components/dashboard';
+import Help from './components/customer/components/help';
 import NavbarComponent from './components/customer/components/navbar';
 import SidebarComponent from './components/customer/components/sidebar';
 import Sidebar from './components/customer/components/sidebar';
@@ -30,6 +31,7 @@ function App() {
       <Route path="/auth/logout" element={<Logout />}></Route>
       <Route path="/customer/cars" element={<Cars />}></Route>
       <Route path="/customer/bookcar" element={<BookCar />}></Route>
+      <Route path="/help" element={<Help />}></Route>
     </Routes>
 </div>
   );

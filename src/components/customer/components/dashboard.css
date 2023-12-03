@@ -22,4 +22,16 @@ font-weight: 500;
     
     padding: 10px; /* Add padding to the top div if needed */
 }
-  
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style the internal elements */
+.center-container .faq-container {
+  max-width: 600px; /* Adjust the maximum width as needed */
+  text-align: left; /* Align text to the left within the container */
+}
+
