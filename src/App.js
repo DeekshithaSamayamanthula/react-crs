@@ -8,6 +8,8 @@ import BookCar from './components/customer/components/bookcar';
 import Cars from './components/customer/components/cars';
 import CustomerDashboard from './components/customer/components/dashboard';
 import NavbarComponent from './components/customer/components/navbar';
+import SidebarComponent from './components/customer/components/sidebar';
+import Sidebar from './components/customer/components/sidebar';
 import Home from './components/home';
 import HostDashboard from './components/host/dashboard';
 import { Route, Routes } from 'react-router-dom';
@@ -19,7 +21,9 @@ function App() {
       <Route path="/" element={<NavbarComponent />}></Route>
       <Route path="/home" element={<Home />}></Route>
       <Route path="/customer/dashboard" element={<CustomerDashboard />}></Route>
+      {/* <Route path="/host/dashboard" element={<HostDashboard />}></Route> */}
       <Route path="/host/dashboard" element={<HostDashboard />}></Route>
+      <Route path="/customer/sidebar" element={<SidebarComponent />}></Route>
       <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
       <Route path="/auth/login" element={<Login />}></Route>
       <Route path="/auth/signup" element={<Signup />}></Route>

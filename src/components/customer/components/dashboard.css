@@ -15,4 +15,11 @@ font-weight: 500;
     border-radius: 19px;
     
   }
+  .top-div {
+    position: fixed; /* Fixed position */
+    top: 25px; /* Positioned at the top */
+    width: 100%; /* Full width */
+    
+    padding: 10px; /* Add padding to the top div if needed */
+}
   

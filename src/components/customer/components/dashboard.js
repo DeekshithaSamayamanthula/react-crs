@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import './dashboard.css';
+import Sidebar from "./sidebar";
 
 function CustomerDashboard() {
     const [source, setSource] = useState('');
@@ -64,12 +65,18 @@ function CustomerDashboard() {
 
     return (
         <div>
+            
             <div>
-                <NavbarComponent />
+               
+                {/* <NavbarComponent /> */}
+                
+                <Sidebar />
+               
+                
             </div>
+            
 
-
-            <div className="container">
+            <div className="container top-div">
                 <div className="row justify-content-center">
                     <div className="col-md-6 border" style={{boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderBlockColor:"black"}}>
                     <br />
@@ -143,7 +150,9 @@ function CustomerDashboard() {
             </div>
 
             <page />
+            
         </div>
+        
     )
 }
 
