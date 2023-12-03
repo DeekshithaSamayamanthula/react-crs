@@ -1,9 +1,10 @@
-import { Button, CardBody, CardSubtitle, CardText, CardTitle, Nav } from "react-bootstrap";
+import { Button, CardBody, CardSubtitle, CardText, CardTitle, Image, Nav } from "react-bootstrap";
 import NavbarComponent from "./navbar";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap/esm";
+import eternity from "../../../assets/car.jpg"
 // import { Card } from "react-bootstrap/esm";
 // import {  CardBody, CardText, CardTitle } from "react-bootstrap";
 // import { CardSubtitle } from "react-bootstrap";
@@ -26,12 +27,12 @@ function Cars(){
                   <Card
                     style={{
                       width: "25rem",
-                      height: "15rem",
+                      height: "25rem",
                       padding:"1px",
                       borderColor:"darkmagenta"
                     }}
                   >
-                    
+                    <center><Image width={280} src={eternity} /></center>
                     <CardBody >
                       <CardTitle><h3>{p.carModel}</h3></CardTitle>
                       <CardSubtitle  style={{ color: "red" ,textAlign:"center"}}>
