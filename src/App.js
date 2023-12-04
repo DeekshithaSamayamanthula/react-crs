@@ -20,8 +20,8 @@ function App() {
   return (
     <div className="App">
     <Routes>
-      <Route path="/" element={<NavbarComponent />}></Route>
-      <Route path="/home" element={<Home />}></Route>
+      {/* <Route path="/" element={<NavbarComponent />}></Route> */}
+      <Route path="/" element={<Home />}></Route>
       <Route path="/all" element={<SearchCars />}></Route>
       <Route path="/customer/dashboard" element={<CustomerDashboard />}></Route>
       {/* <Route path="/host/dashboard" element={<HostDashboard />}></Route> */}

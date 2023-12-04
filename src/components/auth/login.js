@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link, useSearchParams } from "react-router-dom";
 import NavbarComponent from "../customer/components/navbar";
+import backgroundImage from "../../assets/pexels-alexgtacar-1592384.jpg"; 
+
+
 function Login(){
     const [param] = useSearchParams();
     const [username,setUsername] = useState('');
@@ -52,7 +55,11 @@ function Login(){
             // }
         }
     return(
-      <div>
+      <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      minHeight: '100vh', }}>
+      <div style={{ display: "flex"}}>
       {/* <div>
                 <NavbarComponent />
             </div>  */}
@@ -96,18 +103,20 @@ function Login(){
                   onClick={()=>doLogin()}>Login</button>
                  
                 </div>
-                <br />
-            </div>
-            <div style={{textAlign:"left"}} className="mt-4">
+                
+                <div style={{textAlign:"center"}} className="mt-4">
               <span>Don't have an account?
                
               </span> &nbsp;
               <Link to="/auth/signup" className="button_link">  Sign up</Link>
             </div>
+            </div>
+            
           </div>
           <div className="col-md-3"></div>
         </div>
   
+    </div>
     </div>
     </div>
       )

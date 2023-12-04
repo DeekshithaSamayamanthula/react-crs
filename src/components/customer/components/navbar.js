@@ -17,10 +17,10 @@ function NavbarComponent() {
     <div className="mb-4 navstyle">
       <Navbar>
         <Container>
-          <Navbar.Brand href="#home" style={{ color: "red" }} onClick={() => navigate('/home')} className=" home ">
+          <Navbar.Brand  style={{ color: "red" }} onClick={() => navigate('/')} className=" home ">
             <h4>CarRent</h4>
           </Navbar.Brand>
-          <Navbar.Brand href="#home" style={{ color: "white" }} onClick={() => navigate('/home')} className=" home ">
+          <Navbar.Brand  style={{ color: "white" }} onClick={() => navigate('/')} className=" home ">
             <h4>🏠Home</h4>
           </Navbar.Brand>
 

@@ -4,6 +4,7 @@ import { Container, Navbar } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import NavbarComponent from "../customer/components/navbar";
 import { Link } from "react-router-dom";
+import backgroundImage from "../../assets/pexels-alexgtacar-1592384.jpg";
 
 function Signup() {
   const [name, setName] = useState('');
@@ -67,7 +68,11 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    minHeight: '100vh', }}>
+    <div style={{ display: "flex"}}>
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-3"></div>
@@ -155,16 +160,19 @@ function Signup() {
                   SignUp
                 </button>
               </div>
-            </div>
-            <br></br>
-            <div style={{ textAlign: "center" }} className="mt-4">
+              <div style={{ textAlign: "center" }} className="mt-4">
               <span>Have an Account?</span>
             </div>
             <Link to="/auth/login" className="button_link">Login</Link>
+            </div>
+           
+            
+            
           </div>
           <div className="col-md-3"></div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
