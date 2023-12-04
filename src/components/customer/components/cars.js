@@ -1,6 +1,6 @@
 import { Button, CardBody, CardSubtitle, CardText, CardTitle, Image, Nav } from "react-bootstrap";
 import NavbarComponent from "./navbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap/esm";
@@ -9,11 +9,24 @@ import eternity from "../../../assets/car.jpg"
 // import {  CardBody, CardText, CardTitle } from "react-bootstrap";
 // import { CardSubtitle } from "react-bootstrap";
 function Cars(){
-  const [cars,setCars] = useState([]);
-  useEffect(()=>{
-    axios.get('http://localhost:9191/car/getall')
-    .then(response=>setCars(response.data))
-})
+  const [source, setSource] = useState('');
+  const [cars, setCars] = useState([]);
+  const location = useLocation(); // Use useLocation hook
+
+  useEffect(() => {
+    // Retrieve source from query parameters
+    const searchParams = new URLSearchParams(location.search);
+    const sourceFromQuery = searchParams.get("source");
+    console.log("Source from query:", sourceFromQuery);
+    if (sourceFromQuery) {
+      setSource(sourceFromQuery);
+      // Now you can use the 'sourceFromQuery' in your API call
+      axios.get(`http://localhost:9191/car/get/availablecars/${sourceFromQuery}`)
+        .then(response => setCars(response.data))
+        .catch(error => console.error('Error fetching available cars:', error));
+    }
+  }, [location.search]); // Add location.search to the dependency array
+
     return(
         <div>
          

@@ -16,21 +16,30 @@ function CustomerDashboard() {
     const [cars,setCars] = useState([]);
     const [msg,setMsg] = useState('');
     const [sourceCities, setSourceCities] = useState([]);
-    const handleSearchCars = () => {
-      
-      axios.get('http://localhost:9191/car/getall')
-          .then(response => {
-            console.log("response.data");
-              // Handle the API response here
-              setCars(response.data);
-              console.log('Cars:', response.data);
-          })
-          .catch(error => {
-              // Handle errors, if any
-              setMsg('Error in Fetching cars');
-              console.error('Error fetching cars:', error);
-          });
-  }
+    
+  const handleAvailableCars = () => {
+    console.log('Selected Source:', source);
+
+    if (!source) {
+        setMsg('Please select a source city');
+        return;
+    }
+
+    axios.get(`http://localhost:9191/car/get/availablecars/${source.trim()}`)
+
+        .then(response => {
+            setCars(response.data);
+            console.log('Available Cars:', response.data);
+            
+        })
+        .catch(error => {
+            setMsg('Error in Fetching available cars');
+            console.error('Error fetching available cars:', error);
+        });
+}
+
+
+
   useEffect(() => {
     // Fetch source and destination options from the database
     axios.get("http://localhost:9191/car/getall")
@@ -157,7 +166,8 @@ function CustomerDashboard() {
                             <div className="form-group row">
                                 <div className="col-md-6"></div>
                                 <div className="col-md-6 mb-4" style={{ textAlign: "center" }}>
-                                <Button as={Link} to="/customer/cars" onClick={handleSearchCars} variant="primary">Search Cars</Button>
+                                
+                                <Button as={Link} to={`/customer/cars?source=${source}`} onClick={handleAvailableCars} variant="success">Available Cars</Button>
                                 </div>
                             </div>
                         </form>
