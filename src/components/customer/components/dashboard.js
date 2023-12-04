@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavbarComponent from "./navbar";
 import Login from "../../auth/login";
-import { Button, Nav } from "react-bootstrap";
+import { Button, Form, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
@@ -15,7 +15,7 @@ function CustomerDashboard() {
     const [toDate, setToDate] = useState('');
     const [cars,setCars] = useState([]);
     const [msg,setMsg] = useState('');
-    
+    const [sourceCities, setSourceCities] = useState([]);
     const handleSearchCars = () => {
       
       axios.get('http://localhost:9191/car/getall')
@@ -31,7 +31,17 @@ function CustomerDashboard() {
               console.error('Error fetching cars:', error);
           });
   }
-   
+  useEffect(() => {
+    // Fetch source and destination options from the database
+    axios.get("http://localhost:9191/car/getall")
+      .then(response => {
+        setSourceCities(response.data);
+        console.error("setSourceCities:", response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching source data:", error);
+      });
+  }, []);
 
     function getTodayDate() {
         const today = new Date();
@@ -88,14 +98,20 @@ function CustomerDashboard() {
                             <div className="form-group row">
                                 <label className="col-md-6">Enter Source City:</label>
                                 <div className="col-md-6 mb-4">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={source}
-                                        onChange={(e) => setSource(e.target.value)}
-                                        placeholder="enter city"
-                                        
-                                    />
+                                <Form.Group>
+                <Form.Control
+                  as="select"
+                  value={source}
+                  onChange={(e) => setSource(e.target.value)}
+                >
+                  <option value="">Select Source</option>
+                  {sourceCities.map((source, index) => (
+                    <option key={index} value={source.source}>
+                      {source.source}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
                                 </div>
                             </div>
 
