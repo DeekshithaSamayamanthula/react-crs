@@ -1,15 +1,24 @@
+
+import backgroundImage from "../assets/pexels-alexgtacar-1592384.jpg";
 import NavbarComponent from "./customer/components/navbar";
 
-function Home(){
+function Home() {
+  const divStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    minHeight: '100vh',
+  };
 
-    return(
-        
-        <div>
-             <div>
-                <NavbarComponent />
-            </div>
-            <h3>Home</h3>
-        </div>
-    )
+  return (
+    <div style={divStyle}>
+      <div>
+        <NavbarComponent />
+      </div>
+      
+    </div>
+  );
 }
+
 export default Home;

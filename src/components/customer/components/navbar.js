@@ -10,7 +10,7 @@ function NavbarComponent() {
 
   const handleSearch = () => {
     // Redirect to cars page with the search query
-    navigate(`/customer/cars?source=${searchValue}`);
+    navigate(`/all?source=${searchValue}`);
   };
 
   return (

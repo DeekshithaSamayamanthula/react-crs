@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import AdminDashboard from './components/admin/dashboard';
+import SearchCars from './components/all';
 import Login from './components/auth/login';
 import Logout from './components/auth/logout';
 import Signup from './components/auth/signup';
@@ -21,6 +22,7 @@ function App() {
     <Routes>
       <Route path="/" element={<NavbarComponent />}></Route>
       <Route path="/home" element={<Home />}></Route>
+      <Route path="/all" element={<SearchCars />}></Route>
       <Route path="/customer/dashboard" element={<CustomerDashboard />}></Route>
       {/* <Route path="/host/dashboard" element={<HostDashboard />}></Route> */}
       <Route path="/host/dashboard" element={<HostDashboard />}></Route>
