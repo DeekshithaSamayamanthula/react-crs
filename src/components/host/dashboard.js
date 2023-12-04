@@ -2,7 +2,7 @@ function HostDashboard(){
 
     return(
         <div>
-            <h3>Hi HostDashboard ...</h3>
+            <h3> Host Signup ...</h3>
         </div>
     )
 }

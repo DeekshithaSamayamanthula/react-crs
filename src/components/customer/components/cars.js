@@ -27,16 +27,16 @@ function Cars(){
                   <Card
                     style={{
                       width: "25rem",
-                      height: "25rem",
+                      height: "15rem",
                       padding:"1px",
                       borderColor:"darkmagenta"
                     }}
                   >
-                    <center><Image width={280} src={eternity} /></center>
+                    {/* <center><Image width={280} src={eternity} /></center> */}
                     <CardBody >
                       <CardTitle><h3>{p.carModel}</h3></CardTitle>
                       <CardSubtitle  style={{ color: "red" ,textAlign:"center"}}>
-                        Rent Price: INR. {p.price}
+                        Rent Price(per day): INR. {p.price}
                       </CardSubtitle>
                       <br></br>
                       <CardText style={{ color: "blue" ,textAlign:"center", fontWeight:"500"}}>seating:{p.seating}</CardText>

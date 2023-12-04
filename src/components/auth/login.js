@@ -23,6 +23,7 @@ function Login(){
             localStorage.setItem('token',token)
             localStorage.setItem('id',response.data.id)
             localStorage.setItem('isLoggedIn',true)
+            alert("login success")
             let role = response.data.role;
     
             switch(role){

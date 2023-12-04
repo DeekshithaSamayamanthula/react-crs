@@ -9,6 +9,7 @@ function NavbarComponent() {
     <div className="mb-4 navstyle">
       <Navbar  >
         <Container  >
+        <Navbar.Brand href="#home" style={{color: "red"}} onClick={() => navigate('/home')} className=" home "><h4>CarRent</h4></Navbar.Brand>
           <Navbar.Brand href="#home" style={{color: "white"}}onClick={() => navigate('/home')} className=" home "><h4>🏠Home</h4></Navbar.Brand>
           
           <Nav className="me-auto">
@@ -18,6 +19,8 @@ function NavbarComponent() {
             
           </Nav>
           <Nav className="justify-content-end">
+          
+         
           <button className="btn btn-info" onClick={() => navigate('/help')} > Help</button>
           &nbsp;
           <button className="btn btn-warning" onClick={() => navigate('/host/dashboard')} > Sign up as Host</button>
