@@ -1,10 +1,11 @@
 import { Button, CardBody, CardSubtitle, CardText, CardTitle, Image, Nav } from "react-bootstrap";
 import NavbarComponent from "./navbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap/esm";
 import eternity from "../../../assets/car.jpg"
+import Login from "../../auth/login";
 // import { Card } from "react-bootstrap/esm";
 // import {  CardBody, CardText, CardTitle } from "react-bootstrap";
 // import { CardSubtitle } from "react-bootstrap";
@@ -12,7 +13,7 @@ function Cars() {
   const [source, setSource] = useState('');
   const [cars, setCars] = useState([]);
   const location = useLocation();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const sourceFromQuery = searchParams.get("source");
@@ -25,7 +26,18 @@ function Cars() {
         .catch(error => console.error('Error fetching available cars:', error));
     }
   }, [location.search]);
-
+const bookcar = () => {
+  console.log("checking login");
+  if(!localStorage.getItem('isLoggedIn') ){
+    console.log("not logged in");
+    // localStorage.setItem('url','/customer/bookcar')
+    navigate('/auth/login')
+    // localStorage.setItem('url','/customer/bookcar')
+ }
+ else{
+return navigate('/customer/bookcar')
+ }
+}
   return (
     <div>
       <div>
@@ -51,7 +63,7 @@ function Cars() {
                 <br></br>
                 <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>seating:{p.seating}</CardText>
                 <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>source:{p.source}</CardText>
-                <Button as={Link} to="/customer/bookcar">Book Car</Button>
+                <Button  onClick={bookcar}>Book Car</Button>
               </CardBody>
             </Card>
           </div>

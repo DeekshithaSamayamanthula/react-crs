@@ -28,15 +28,15 @@ function Login(){
             localStorage.setItem('isLoggedIn',true)
             alert("login success")
             let role = response.data.role;
-    
+          console.log("role",role);
             switch(role){
-              case 'CUSTOMER':
+              case 'Customer':
                 navigate('/customer/dashboard')
                 break;
-              case 'HOST':
+              case 'Host':
                 navigate('/host/dashboard')
                 break;
-              case 'ADMIN':
+              case 'Admin':
                 navigate('/admin/dashboard')
                 break;
               default:
