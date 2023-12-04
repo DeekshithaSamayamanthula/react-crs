@@ -40,17 +40,20 @@ function CustomerDashboard() {
 
 
 
-  useEffect(() => {
+useEffect(() => {
     // Fetch source and destination options from the database
     axios.get("http://localhost:9191/car/getall")
       .then(response => {
-        setSourceCities(response.data);
-        console.error("setSourceCities:", response.data);
+        // Remove duplicate city names
+        const uniqueCities = Array.from(new Set(response.data.map(city => city.source)));
+        setSourceCities(uniqueCities);
+        console.log("Unique Source Cities:", uniqueCities);
       })
       .catch(error => {
         console.error("Error fetching source data:", error);
       });
   }, []);
+  
 
     function getTodayDate() {
         const today = new Date();
@@ -108,19 +111,20 @@ function CustomerDashboard() {
                                 <label className="col-md-6">Enter Source City:</label>
                                 <div className="col-md-6 mb-4">
                                 <Form.Group>
-                <Form.Control
-                  as="select"
-                  value={source}
-                  onChange={(e) => setSource(e.target.value)}
-                >
-                  <option value="">Select Source</option>
-                  {sourceCities.map((source, index) => (
-                    <option key={index} value={source.source}>
-                      {source.source}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
+  <Form.Control
+    as="select"
+    value={source}
+    onChange={(e) => setSource(e.target.value)}
+  >
+    <option value="">Select Source</option>
+    {sourceCities.map((city, index) => (
+      <option key={index} value={city}>
+        {city}
+      </option>
+    ))}
+  </Form.Control>
+</Form.Group>
+
                                 </div>
                             </div>
 
