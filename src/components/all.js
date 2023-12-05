@@ -31,7 +31,7 @@ function SearchCars(){
           <div>
             <div>
               <NavbarComponent />
-              <h3 style={{ color: "Green", fontWeight: "bold" }}> Available Cars</h3>
+              <h3 style={{ color: "Green", fontWeight: "bold" }}> All Cars</h3>
             </div>
             <div className="row" style={{ paddingLeft: "56px" }}>
               {cars.map((p, index) => (
