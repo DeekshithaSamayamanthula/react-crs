@@ -13,18 +13,26 @@ function Cars() {
     const [cars, setCars] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
-    const [username,setUsername] = useState('');
-    const [password,setPassword] = useState('');
 
     useEffect(() => {
+        // Retrieve values from the URL parameters when the component mounts
         const searchParams = new URLSearchParams(location.search);
         const sourceFromQuery = searchParams.get("source");
         const carIdFromQuery = searchParams.get("carId");
+        const destinationFromQuery = searchParams.get("destination");
+        const fromDateFromQuery = searchParams.get("fromDate");
+        const toDateFromQuery = searchParams.get("toDate");
 
+        // Check if source and carId are present in the URL
         if (sourceFromQuery && carIdFromQuery) {
+            // Set state variables with values from the URL
             setSource(sourceFromQuery);
             setCarId(carIdFromQuery);
+            setDestination(destinationFromQuery);
+            setfromDate(fromDateFromQuery);
+            settoDate(toDateFromQuery);
 
+            // Fetch available cars based on the source
             axios.get(`http://localhost:9191/car/get/availablecars/${sourceFromQuery}`)
                 .then(response => setCars(response.data))
                 .catch(error => console.error('Error fetching available cars:', error));
@@ -32,35 +40,33 @@ function Cars() {
     }, [location.search]);
 
     const handleBookCar = () => {
-        // Get customerId from localStorage
-    const customerId = localStorage.getItem('customerId');
-
-    if (!customerId) {
-        console.error('Customer ID not found in localStorage');
-        // Handle the absence of customerId as needed
-        
-    }
-
-        // Assuming you have fromDate, toDate, and other booking details available
-        const bookingDetails = {
-            source: source.trim(),
-            destination: destination.trim(), // Add destination value
-            fromDate: fromDate.trim(), // Add fromDate value
-            toDate: toDate.trim() // Add toDate value
-        };
-
-        axios.post(`http://localhost:9191/bookcar/124/${carId}`, [bookingDetails])
-            .then(response => {
-                console.log('Booking successful:', response.data);
-                // Handle the response as needed
-                // navigate('/customer/dashboard'); // Redirect to dashboard or another page
-                alert("booking success");
-            })
-            .catch(error => {
-                console.error('Error booking the car:', error);
-                // Handle the error as needed
-            });
-    }
+      const customerId = localStorage.getItem('customerId');
+  
+      if (!customerId) {
+          console.error('Customer ID not found in localStorage');
+          // Handle the absence of customerId as needed
+          
+      }
+  
+      // Create booking details object with values from the state
+      const bookingDetails = [{
+          source: source.trim(),
+          destination: destination.trim(),
+          fromDate: fromDate.trim(),
+          toDate: toDate.trim()
+      }];
+  console.log("bookingDetails",bookingDetails);
+      // Make a POST request to book the car with customerId, carId, and bookingDetails
+      axios.post(`http://localhost:9191/bookcar/124/${carId}`, bookingDetails)
+          .then(response => {
+              console.log('Booking successful:', response.data);
+              alert("Booking success");
+          })
+          .catch(error => {
+              console.error('Error booking the car:', error);
+              // Handle the error as needed
+          });
+  }
 
     return (
         <div>

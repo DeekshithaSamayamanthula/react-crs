@@ -17,8 +17,6 @@ function CustomerDashboard() {
     const navigate = useNavigate();
 
     const handleAvailableCars = () => {
-        console.log('Selected Source:', source);
-
         if (!source) {
             setMsg('Please select a source city');
             return;
@@ -27,13 +25,10 @@ function CustomerDashboard() {
         axios.get(`http://localhost:9191/car/get/availablecars/${source.trim()}`)
             .then(response => {
                 setCars(response.data);
-                console.log('Available Cars:', response.data);
 
-                // Assuming you have customerId and carId available
-                const customerId = 123; // Replace with your actual customerId
-                const carId = response.data[0].carId; // Assuming you want to book the first available car
+                const carId = response.data[0].carId;
 
-                navigate(`/customer/cars?source=${source}&carId=${carId}`);
+                navigate(`/customer/cars?source=${source}&carId=${carId}&destination=${destination}&fromDate=${fromDate}&toDate=${toDate}`);
             })
             .catch(error => {
                 setMsg('Error in Fetching available cars');
@@ -46,7 +41,6 @@ function CustomerDashboard() {
             .then(response => {
                 const uniqueCities = Array.from(new Set(response.data.map(city => city.source)));
                 setSourceCities(uniqueCities);
-                console.log("Unique Source Cities:", uniqueCities);
             })
             .catch(error => {
                 console.error("Error fetching source data:", error);
@@ -85,9 +79,7 @@ function CustomerDashboard() {
 
     return (
         <div>
-            <div>
-                <Sidebar />
-            </div>
+            <Sidebar />
 
             <div className="container top-div">
                 <div className="row justify-content-center">
