@@ -71,7 +71,7 @@ function Cars() {
         if (!customerId) {
             console.error('Customer ID not found in localStorage');
             // Handle the absence of customerId as needed
-            
+            return;
         }
     
         // Create booking details object with values from the state
@@ -81,20 +81,24 @@ function Cars() {
             fromDate: fromDate.trim(),
             toDate: toDate.trim()
         }];
-    console.log("bookingDetails",bookingDetails);
+        
         // Make a POST request to book the car with customerId, carId, and bookingDetails
         axios.post(`http://localhost:9191/bookcar/124/${carId}`, bookingDetails)
             .then(response => {
                 console.log('Booking successful:', response.data);
                 alert("Booking success");
-                navigate(`/customer/success?carModel=${selectedCar.carModel}`);
-          
+                navigate(`/customer/success`);
             })
             .catch(error => {
                 console.error('Error booking the car:', error);
                 // Handle the error as needed
             });
     }
+
+    const handleBack = () => {
+        setSelectedCar(null);
+    };
+
     const handleSelectCar = (car) => {
         setSelectedCar(car);
     }
@@ -102,13 +106,12 @@ function Cars() {
     return (
         <div>
             <NavbarComponent />
-            
-
             <Container>
                 {selectedCar ? (
                     <Row className="justify-content-center">
                         <Col md={6}>
                             <div style={{ border: "1px solid darkmagenta", padding: "15px", borderRadius: "10px" }}>
+                                
                                 <h4 style={{ fontWeight: "bold" }}>Selected Car Details</h4>
                                 <Form>
                                     <FormGroup>
@@ -135,9 +138,13 @@ function Cars() {
                                         <label style={{ fontWeight: "bold" }}>Total Price:</label>
                                         <FormControl type="text" value={`INR. ${totalPrice || 0}`} readOnly />
                                     </FormGroup>
+                                    <br />
+                                    
+                                    <Button onClick={handleBack} style={{ textAlign: "left" }}>Back to See Available Cars</Button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Button onClick={handleBookCar} >Book Car</Button>
+                                    
                                 </Form>
-                                <br />
-                                <Button onClick={handleBookCar}>Book Car</Button>
                             </div>
                         </Col>
                     </Row>
