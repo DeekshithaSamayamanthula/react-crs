@@ -12,6 +12,7 @@ const History = ({ customerId }) => {
             try {
                 const response = await axios.get(`http://localhost:9191/customer/bookings/124`);
                 setBookings(response.data);
+                console.log("response.data",response.data);
             } catch (error) {
                 console.error('Error fetching booking history:', error);
             }
@@ -38,7 +39,7 @@ const History = ({ customerId }) => {
                 <tbody>
                     {bookings.map((booking, index) => (
                         <tr key={index}>
-                            <td>{booking.carModel}</td>
+                            <td>{booking.car.carModel}</td>
                             <td>INR. {booking.price}</td>
                             <td>{booking.source}</td>
                             <td>{booking.destination}</td>
