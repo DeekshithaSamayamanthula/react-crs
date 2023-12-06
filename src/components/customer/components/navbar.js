@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container, Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -49,7 +49,24 @@ function NavbarComponent() {
             &nbsp;
             <button className="btn btn-warning" onClick={() => navigate('/host/dashboard')}>Sign up as Host</button>
             &nbsp;
-            <button className="btn btn-primary" onClick={() => navigate('/auth/login')}>Login</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {
+              localStorage.getItem('isLoggedIn')?
+              <React.Fragment>
+              <Navbar.Text style={{color: "white"}}>
+              signed in as :<span style={{color: "white"}}> 
+              {localStorage.getItem('username')} 
+              </span>
+            </Navbar.Text>
+            &nbsp;&nbsp;&nbsp;
+            <button className="btn btn-danger btn-sm ml-4"variant="outline-light" onClick={()=>{
+              localStorage.clear();
+              navigate('/auth/login?msg=you have logged out..')
+            }}>Logout</button>
+            </React.Fragment>
+            : 
+            <button className="btn btn-primary" variant="outline-light" onClick={()=>navigate('/auth/login')}>Login</button>
+            }
           </Nav>
         </Container>
       </Navbar>
