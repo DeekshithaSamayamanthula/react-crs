@@ -87,6 +87,7 @@ function Cars() {
             .then(response => {
                 console.log('Booking successful:', response.data);
                 alert("Booking success");
+                navigate("/customer/success");
             })
             .catch(error => {
                 console.error('Error booking the car:', error);
@@ -100,7 +101,7 @@ function Cars() {
     return (
         <div>
             <NavbarComponent />
-            <h3 style={{ color: "Green", fontWeight: "bold", textAlign: "center" }}> Available Cars</h3>
+            
 
             <Container>
                 {selectedCar ? (
@@ -141,6 +142,7 @@ function Cars() {
                     </Row>
                 ) : (
                     <Row className="justify-content-center">
+                        <h3 style={{ color: "Green", fontWeight: "bold", textAlign: "center" }}> Available Cars</h3>
                         {cars.map((p, index) => (
                             <Col key={index} md={4} className="mb-4">
                                 <Card

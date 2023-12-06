@@ -13,6 +13,7 @@ import History from './components/customer/components/history';
 import NavbarComponent from './components/customer/components/navbar';
 import SidebarComponent from './components/customer/components/sidebar';
 import Sidebar from './components/customer/components/sidebar';
+import Success from './components/customer/components/success';
 import Home from './components/home';
 import HostDashboard from './components/host/dashboard';
 import { Route, Routes } from 'react-router-dom';
@@ -34,6 +35,7 @@ function App() {
       <Route path="/auth/logout" element={<Logout />}></Route>
       <Route path="/customer/cars" element={<Cars />}></Route>
       <Route path="/customer/history" element={<History />}></Route>
+      <Route path="/customer/success" element={<Success />}></Route>
       <Route path="/customer/bookcar" element={<BookCar />}></Route>
       <Route path="/help" element={<Help />}></Route>
     </Routes>
