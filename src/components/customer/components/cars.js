@@ -87,7 +87,8 @@ function Cars() {
             .then(response => {
                 console.log('Booking successful:', response.data);
                 alert("Booking success");
-                navigate("/customer/success");
+                navigate(`/customer/success?carModel=${selectedCar.carModel}`);
+          
             })
             .catch(error => {
                 console.error('Error booking the car:', error);

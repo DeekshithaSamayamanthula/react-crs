@@ -1,7 +1,8 @@
 // BookingHistory.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardBody, CardSubtitle, CardText, CardTitle } from "react-bootstrap";
+import { Card, Table, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const History = ({ customerId }) => {
     const [bookings, setBookings] = useState([]);
@@ -22,43 +23,31 @@ const History = ({ customerId }) => {
     return (
         <div>
             <h3 style={{ color: "Green", fontWeight: "bold" }}>Booking History</h3>
-            <div className="row" style={{ paddingLeft: "56px" }}>
-                {bookings.map((booking, index) => (
-                    <div key={index} className="col-md-4 mb-4">
-                        <Card
-                            style={{
-                                width: "25rem",
-                                height: "15rem",
-                                padding: "1px",
-                                borderColor: "darkmagenta"
-                            }}
-                        >
-                            <CardBody>
-                                <CardTitle>
-                                    <h3>{booking.carModel}</h3>
-                                </CardTitle>
-                                <CardSubtitle style={{ color: "red", textAlign: "center" }}>
-                                    Rent Price: INR. {booking.price}
-                                </CardSubtitle>
-                                <br></br>
-                                <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>
-                                    Source: {booking.source}
-                                </CardText>
-                                <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>
-                                    Destination: {booking.destination}
-                                </CardText>
-                                <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>
-                                    FromDate: {booking.fromDate}
-                                </CardText>
-                                <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>
-                                    ToDate: {booking.toDate}
-                                </CardText>
-                               
-                            </CardBody>
-                        </Card>
-                    </div>
-                ))}
-            </div>
+            <Link to="/">Back to Home</Link>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Car Model</th>
+                        <th>Rent Price</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>FromDate</th>
+                        <th>ToDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {bookings.map((booking, index) => (
+                        <tr key={index}>
+                            <td>{booking.carModel}</td>
+                            <td>INR. {booking.price}</td>
+                            <td>{booking.source}</td>
+                            <td>{booking.destination}</td>
+                            <td>{booking.fromDate}</td>
+                            <td>{booking.toDate}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
         </div>
     );
 };

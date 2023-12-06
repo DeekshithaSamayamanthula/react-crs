@@ -11,6 +11,7 @@ import CustomerDashboard from './components/customer/components/dashboard';
 import Help from './components/customer/components/help';
 import History from './components/customer/components/history';
 import NavbarComponent from './components/customer/components/navbar';
+import Profile from './components/customer/components/profile';
 import SidebarComponent from './components/customer/components/sidebar';
 import Sidebar from './components/customer/components/sidebar';
 import Success from './components/customer/components/success';
@@ -37,6 +38,7 @@ function App() {
       <Route path="/customer/history" element={<History />}></Route>
       <Route path="/customer/success" element={<Success />}></Route>
       <Route path="/customer/bookcar" element={<BookCar />}></Route>
+      <Route path="/customer/profile" element={<Profile />}></Route>
       <Route path="/help" element={<Help />}></Route>
     </Routes>
 </div>
