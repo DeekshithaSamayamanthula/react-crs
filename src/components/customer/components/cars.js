@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavbarComponent from "./navbar";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle } from "react-bootstrap";
+import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Form, FormGroup, FormControl, Container, Row, Col } from "react-bootstrap";
 
 function Cars() {
     const [source, setSource] = useState("");
@@ -11,11 +11,13 @@ function Cars() {
     const [toDate, settoDate] = useState("");
     const [carId, setCarId] = useState('');
     const [cars, setCars] = useState([]);
+    const [selectedCar, setSelectedCar] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(null);
+    const [noOfDays, setNoOfDays] = useState(0);
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Retrieve values from the URL parameters when the component mounts
         const searchParams = new URLSearchParams(location.search);
         const sourceFromQuery = searchParams.get("source");
         const carIdFromQuery = searchParams.get("carId");
@@ -23,80 +25,148 @@ function Cars() {
         const fromDateFromQuery = searchParams.get("fromDate");
         const toDateFromQuery = searchParams.get("toDate");
 
-        // Check if source and carId are present in the URL
         if (sourceFromQuery && carIdFromQuery) {
-            // Set state variables with values from the URL
             setSource(sourceFromQuery);
             setCarId(carIdFromQuery);
             setDestination(destinationFromQuery);
             setfromDate(fromDateFromQuery);
             settoDate(toDateFromQuery);
 
-            // Fetch available cars based on the source
             axios.get(`http://localhost:9191/car/get/availablecars/${sourceFromQuery}`)
                 .then(response => setCars(response.data))
                 .catch(error => console.error('Error fetching available cars:', error));
         }
     }, [location.search]);
 
+    const calculateTotalPrice = (actualPrice, noOfDays) => {
+        if (noOfDays <= 1) {
+            return actualPrice;
+        } else if (noOfDays === 2) {
+            return actualPrice * 1.2;
+        } else if (noOfDays >= 3 && noOfDays <= 4) {
+            return actualPrice * 1.4;
+        } else if (noOfDays >= 5 && noOfDays <= 10) {
+            return actualPrice * 1.6;
+        } else {
+            return actualPrice * 1.5;
+        }
+    };
+
+    useEffect(() => {
+        if (selectedCar && fromDate && toDate) {
+            const fromDateObj = new Date(fromDate);
+            const toDateObj = new Date(toDate);
+            const timeDifference = toDateObj.getTime() - fromDateObj.getTime();
+            const days = Math.ceil(timeDifference / (1000 * 3600 * 24));
+            setNoOfDays(days);
+
+            const totalPrice = calculateTotalPrice(selectedCar.price, days);
+            setTotalPrice(totalPrice.toFixed(2)); // Round to two decimal places
+        }
+    }, [selectedCar, fromDate, toDate]);
+
     const handleBookCar = () => {
-      const customerId = localStorage.getItem('customerId');
-  
-      if (!customerId) {
-          console.error('Customer ID not found in localStorage');
-          // Handle the absence of customerId as needed
-          
-      }
-  
-      // Create booking details object with values from the state
-      const bookingDetails = [{
-          source: source.trim(),
-          destination: destination.trim(),
-          fromDate: fromDate.trim(),
-          toDate: toDate.trim()
-      }];
-  console.log("bookingDetails",bookingDetails);
-      // Make a POST request to book the car with customerId, carId, and bookingDetails
-      axios.post(`http://localhost:9191/bookcar/124/${carId}`, bookingDetails)
-          .then(response => {
-              console.log('Booking successful:', response.data);
-              alert("Booking success");
-          })
-          .catch(error => {
-              console.error('Error booking the car:', error);
-              // Handle the error as needed
-          });
-  }
+        const customerId = localStorage.getItem('customerId');
+    
+        if (!customerId) {
+            console.error('Customer ID not found in localStorage');
+            // Handle the absence of customerId as needed
+            
+        }
+    
+        // Create booking details object with values from the state
+        const bookingDetails = [{
+            source: source.trim(),
+            destination: destination.trim(),
+            fromDate: fromDate.trim(),
+            toDate: toDate.trim()
+        }];
+    console.log("bookingDetails",bookingDetails);
+        // Make a POST request to book the car with customerId, carId, and bookingDetails
+        axios.post(`http://localhost:9191/bookcar/124/${carId}`, bookingDetails)
+            .then(response => {
+                console.log('Booking successful:', response.data);
+                alert("Booking success");
+            })
+            .catch(error => {
+                console.error('Error booking the car:', error);
+                // Handle the error as needed
+            });
+    }
+    const handleSelectCar = (car) => {
+        setSelectedCar(car);
+    }
 
     return (
         <div>
             <NavbarComponent />
-            <h3 style={{ color: "Green", fontWeight: "bold" }}> Available Cars</h3>
-            <div className="row" style={{ paddingLeft: "56px" }}>
-                {cars.map((p, index) => (
-                    <div key={index} className="col-md-4 mb-4">
-                        <Card
-                            style={{
-                                width: "25rem",
-                                height: "15rem",
-                                padding: "1px",
-                                borderColor: "darkmagenta"
-                            }}
-                        >
-                            <CardBody>
-                                <CardTitle><h3>{p.carModel}</h3></CardTitle>
-                                <CardSubtitle style={{ color: "red", textAlign: "center" }}>
-                                    Rent Price(per day): INR. {p.price}
-                                </CardSubtitle>
-                                <br></br>
-                                <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>seating:{p.seating}</CardText>
-                                <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>source:{p.source}</CardText>
+            <h3 style={{ color: "Green", fontWeight: "bold", textAlign: "center" }}> Available Cars</h3>
+
+            <Container>
+                {selectedCar ? (
+                    <Row className="justify-content-center">
+                        <Col md={6}>
+                            <div style={{ border: "1px solid darkmagenta", padding: "15px", borderRadius: "10px" }}>
+                                <h4 style={{ fontWeight: "bold" }}>Selected Car Details</h4>
+                                <Form>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Car Model:</label>
+                                        <FormControl type="text" value={selectedCar.carModel} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Rent Price (per day):</label>
+                                        <FormControl type="text" value={`INR. ${selectedCar.price}`} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Seating:</label>
+                                        <FormControl type="text" value={selectedCar.seating} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Source:</label>
+                                        <FormControl type="text" value={selectedCar.source} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Number of Days:</label>
+                                        <FormControl type="text" value={noOfDays} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Total Price:</label>
+                                        <FormControl type="text" value={`INR. ${totalPrice || 0}`} readOnly />
+                                    </FormGroup>
+                                </Form>
+                                <br />
                                 <Button onClick={handleBookCar}>Book Car</Button>
-                            </CardBody>
-                        </Card>
-                    </div>
-                ))}
-            </div>
+                            </div>
+                        </Col>
+                    </Row>
+                ) : (
+                    <Row className="justify-content-center">
+                        {cars.map((p, index) => (
+                            <Col key={index} md={4} className="mb-4">
+                                <Card
+                                    style={{
+                                        width: "25rem",
+                                        height: "15rem",
+                                        padding: "1px",
+                                        borderColor: "darkmagenta"
+                                    }}
+                                >
+                                    <CardBody>
+                                        <CardTitle><h3>{p.carModel}</h3></CardTitle>
+                                        <CardSubtitle style={{ color: "red", textAlign: "center" }}>
+                                            Rent Price(per day): INR. {p.price}
+                                        </CardSubtitle>
+                                        <br></br>
+                                        <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>seating:{p.seating}</CardText>
+                                        <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>source:{p.source}</CardText>
+                                        <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                )}
+            </Container>
         </div>
     );
 }

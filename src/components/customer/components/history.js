@@ -9,7 +9,7 @@ const History = ({ customerId }) => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const response = await axios.get(`http://localhost:9191/customer/bookings/${customerId}`);
+                const response = await axios.get(`http://localhost:9191/customer/bookings/124`);
                 setBookings(response.data);
             } catch (error) {
                 console.error('Error fetching booking history:', error);
@@ -38,15 +38,22 @@ const History = ({ customerId }) => {
                                     <h3>{booking.carModel}</h3>
                                 </CardTitle>
                                 <CardSubtitle style={{ color: "red", textAlign: "center" }}>
-                                    Rent Price(per day): INR. {booking.price}
+                                    Rent Price: INR. {booking.price}
                                 </CardSubtitle>
                                 <br></br>
-                                <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>
-                                    Seating: {booking.seating}
-                                </CardText>
                                 <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>
                                     Source: {booking.source}
                                 </CardText>
+                                <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>
+                                    Destination: {booking.destination}
+                                </CardText>
+                                <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>
+                                    FromDate: {booking.fromDate}
+                                </CardText>
+                                <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>
+                                    ToDate: {booking.toDate}
+                                </CardText>
+                               
                             </CardBody>
                         </Card>
                     </div>
