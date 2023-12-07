@@ -1,0 +1,12 @@
+.form_style{
+    transition: none 0s ease 0s;
+    text-align: inherit;
+    line-height: 22px;
+    border-width: 0px;
+    margin: 0px 0px 30px;
+    padding: 0px;
+    letter-spacing: 0px;
+    font-weight: 400;
+    font-size: 20px;
+    color: blue;
+}

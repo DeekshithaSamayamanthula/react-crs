@@ -32,6 +32,7 @@ const History = ({ customerId }) => {
                 <thead>
                     <tr>
                         <th>Car Model</th>
+                        <th>vehicleNo</th>
                         <th>Rent Price</th>
                         <th>Source</th>
                         <th>Destination</th>
@@ -43,6 +44,7 @@ const History = ({ customerId }) => {
                     {bookings.map((booking, index) => (
                         <tr key={index}>
                             <td>{booking.car.carModel}</td>
+                            <td>{booking.car.vehicleNo}</td>
                             <td>INR. {booking.price}</td>
                             <td>{booking.source}</td>
                             <td>{booking.destination}</td>

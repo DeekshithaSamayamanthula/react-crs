@@ -121,6 +121,10 @@ function Cars() {
                                         <FormControl type="text" value={selectedCar.carModel} readOnly />
                                     </FormGroup>
                                     <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Vehical No:</label>
+                                        <FormControl type="text" value={selectedCar.vehicleNo} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
                                         <label style={{ fontWeight: "bold" }}>Rent Price (per day):</label>
                                         <FormControl type="text" value={`INR. ${selectedCar.price}`} readOnly />
                                     </FormGroup>
@@ -158,7 +162,7 @@ function Cars() {
                                 <Card
                                     style={{
                                         width: "25rem",
-                                        height: "15rem",
+                                        height: "18rem",
                                         padding: "1px",
                                         borderColor: "darkmagenta"
                                     }}
@@ -169,6 +173,7 @@ function Cars() {
                                             Rent Price(per day): INR. {p.price}
                                         </CardSubtitle>
                                         <br></br>
+                                        <CardText style={{ color: "black", textAlign: "center", fontWeight: "500" }}>vehicleNo:{p.vehicleNo}</CardText>
                                         <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>seating:{p.seating}</CardText>
                                         <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>source:{p.source}</CardText>
                                         <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
