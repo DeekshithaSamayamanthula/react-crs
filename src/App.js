@@ -5,7 +5,7 @@ import SearchCars from './components/all';
 import Login from './components/auth/login';
 import Logout from './components/auth/logout';
 import Signup from './components/auth/signup';
-import BookCar from './components/customer/components/bookcar';
+
 import Cars from './components/customer/components/cars';
 import CustomerDashboard from './components/customer/components/dashboard';
 import Help from './components/customer/components/help';
@@ -19,6 +19,8 @@ import Home from './components/home';
 import HostDashboard from './components/host/dashboard';
 import { Route, Routes } from 'react-router-dom';
 import HostNavbar from './components/host/navbar';
+import HostSignup from './components/host/auth/signup';
+import MyCars from './components/host/mycars';
 
 function App() {
   return (
@@ -38,10 +40,11 @@ function App() {
       <Route path="/customer/cars" element={<Cars />}></Route>
       <Route path="/customer/history" element={<History />}></Route>
       <Route path="/customer/success" element={<Success />}></Route>
-      <Route path="/customer/bookcar" element={<BookCar />}></Route>
       <Route path="/customer/profile" element={<Profile />}></Route>
       <Route path="/help" element={<Help />}></Route>
       <Route path="/host/navbar" element={<HostNavbar />}></Route>
+      <Route path="/host/auth/signup" element={<HostSignup />}></Route>
+      <Route path="/host/mycars" element={<MyCars />}></Route>
     </Routes>
 </div>
   );

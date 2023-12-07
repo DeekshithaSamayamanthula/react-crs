@@ -47,7 +47,7 @@ function NavbarComponent() {
           <Nav className="justify-content-end">
             <button className="btn btn-info" onClick={() => navigate('/help')}>Help</button>
             &nbsp;
-            <button className="btn btn-warning" onClick={() => navigate('/host/dashboard')}>Sign up as Host</button>
+            <button className="btn btn-warning" onClick={() => navigate('/host/auth/signup')}>Sign up as Host</button>
             &nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             {

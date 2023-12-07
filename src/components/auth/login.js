@@ -22,6 +22,7 @@ function Login(){
         })
         .then(function (response){
             //handle success
+            localStorage.clear();
             localStorage.setItem('username',username)
             localStorage.setItem('token',token)
             localStorage.setItem('id',response.data.userId)
