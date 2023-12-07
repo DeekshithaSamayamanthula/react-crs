@@ -13,10 +13,12 @@ const Profile = () => {
     name: "",
     age: "",
     phoneNo: "",
-    email: "", // Added email field
+    email: "", 
   });
 
   useEffect(() => {
+    const uid = localStorage.getItem("id");
+    const cid = parseInt(uid,10) + 1;
     const fetchCustomerDetails = async () => {
       try {
         console.log("Fetching customer details for cid:", cid);
