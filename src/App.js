@@ -18,6 +18,7 @@ import Success from './components/customer/components/success';
 import Home from './components/home';
 import HostDashboard from './components/host/dashboard';
 import { Route, Routes } from 'react-router-dom';
+import HostNavbar from './components/host/navbar';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
       <Route path="/customer/bookcar" element={<BookCar />}></Route>
       <Route path="/customer/profile" element={<Profile />}></Route>
       <Route path="/help" element={<Help />}></Route>
+      <Route path="/navbar" element={<HostNavbar />}></Route>
     </Routes>
 </div>
   );

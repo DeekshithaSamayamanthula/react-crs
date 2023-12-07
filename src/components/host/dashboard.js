@@ -1,13 +1,12 @@
-import NavbarComponent from "../customer/components/navbar";
+import HostNavbar from "./navbar";
 
 function HostDashboard(){
 
     return(
         <div>
             <div>
-              <NavbarComponent />
-              
-              </div>
+                <HostNavbar />
+            </div>
             <h3> Host Signup ...</h3>
         </div>
     )

@@ -24,11 +24,11 @@ function Login(){
             //handle success
             localStorage.setItem('username',username)
             localStorage.setItem('token',token)
-            localStorage.setItem('id',response.data.id)
+            localStorage.setItem('id',response.data.userId)
             localStorage.setItem('isLoggedIn',true)
             alert("login success")
             let role = response.data.role;
-          console.log("role",role);
+          console.log("data",response.data);
             switch(role){
               case 'Customer':
                 navigate('/customer/dashboard')

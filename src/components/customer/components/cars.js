@@ -66,9 +66,11 @@ function Cars() {
     }, [selectedCar, fromDate, toDate]);
 
     const handleBookCar = () => {
-        const customerId = localStorage.getItem('customerId');
-    
-        if (!customerId) {
+        // const customerId = localStorage.getItem('id');
+        const uid = localStorage.getItem("id");
+        const cid = parseInt(uid,10) + 1;
+        
+        if (!cid) {
             console.error('Customer ID not found in localStorage');
             // Handle the absence of customerId as needed
             return;
@@ -83,7 +85,7 @@ function Cars() {
         }];
         
         // Make a POST request to book the car with customerId, carId, and bookingDetails
-        axios.post(`http://localhost:9191/bookcar/124/${carId}`, bookingDetails)
+        axios.post(`http://localhost:9191/bookcar/${cid}/${carId}`, bookingDetails)
             .then(response => {
                 console.log('Booking successful:', response.data);
                 alert("Booking success");

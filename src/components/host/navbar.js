@@ -1,3 +1,6 @@
+import { Container, Nav, Navbar } from "react-bootstrap";
+
+function HostNavbar() {
 <Navbar bg="primary" data-bs-theme="dark">
 <Container>
   <Navbar.Brand href="#home">Navbar</Navbar.Brand>
@@ -8,3 +11,5 @@
   </Nav>
 </Container>
 </Navbar>
+}
+export default HostNavbar;

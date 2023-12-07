@@ -8,9 +8,12 @@ const History = ({ customerId }) => {
     const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
+        const uid = localStorage.getItem("id");
+        const cid = parseInt(uid,10) + 1;
+        
         const fetchBookings = async () => {
             try {
-                const response = await axios.get(`http://localhost:9191/customer/bookings/124`);
+                const response = await axios.get(`http://localhost:9191/customer/bookings/` +cid);
                 setBookings(response.data);
                 console.log("response.data",response.data);
             } catch (error) {

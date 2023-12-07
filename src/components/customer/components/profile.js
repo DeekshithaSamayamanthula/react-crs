@@ -20,7 +20,7 @@ const Profile = () => {
     const fetchCustomerDetails = async () => {
       try {
         console.log("Fetching customer details for cid:", cid);
-        const response = await axios.get(`http://localhost:9191/customer/getone/126`);
+        const response = await axios.get(`http://localhost:9191/customer/getone/${cid}`);
         console.log("Fetched customer details:", response.data);
         setCustomer(response.data);
       } catch (error) {
@@ -42,7 +42,7 @@ const Profile = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:9191/customer/update/126`, customer);
+      await axios.put(`http://localhost:9191/customer/update/${cid}`, customer);
       alert("Customer details updated successfully!");
       navigate('/customer/dashboard')
     } catch (error) {
