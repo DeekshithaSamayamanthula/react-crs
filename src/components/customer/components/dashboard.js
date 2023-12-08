@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import NavbarComponent from "./navbar";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './dashboard.css';
@@ -14,12 +14,18 @@ function CustomerDashboard() {
     const [cars, setCars] = useState([]);
     const [msg, setMsg] = useState('');
     const [sourceCities, setSourceCities] = useState([]);
+    const [warningMessage, setWarningMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleAvailableCars = () => {
-        if (!source) {
-            setMsg('Please select a source city');
+    const handleAvailableCars = (e) => {
+        e.preventDefault();
+
+        // Validate input fields
+        if (!source || !destination || !fromDate || !toDate) {
+            setWarningMessage('Please fill in all the fields');
             return;
+        } else {
+            setWarningMessage(''); // Clear any previous warning message
         }
 
         axios.get(`http://localhost:9191/car/get/availablecars/${source.trim()}`)
@@ -89,6 +95,8 @@ function CustomerDashboard() {
                         <br />
 
                         <form onSubmit={handleSubmit}>
+                            {warningMessage && <Alert variant="warning">{warningMessage}</Alert>}
+
                             <div className="form-group row">
                                 <label className="col-md-6">Enter Source City:</label>
                                 <div className="col-md-6 mb-4">
@@ -151,7 +159,7 @@ function CustomerDashboard() {
                             <div className="form-group row">
                                 <div className="col-md-6"></div>
                                 <div className="col-md-6 mb-4" style={{ textAlign: "center" }}>
-                                    <Button as={Link} to={`/customer/cars?source=${source}`} onClick={handleAvailableCars} variant="success">Available Cars</Button>
+                                    <Button as={Link} to={`/customer/cars?source=${source}`} onClick={handleAvailableCars} variant="success">Search Cars</Button>
                                 </div>
                             </div>
                         </form>
