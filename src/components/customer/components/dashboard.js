@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './dashboard.css';
 import Sidebar from "./sidebar";
+import Select from 'react-select'; // Import the react-select component
 
 function CustomerDashboard() {
     const [source, setSource] = useState('');
@@ -100,20 +101,12 @@ function CustomerDashboard() {
                             <div className="form-group row">
                                 <label className="col-md-6">Enter Source City:</label>
                                 <div className="col-md-6 mb-4">
-                                    <Form.Group>
-                                        <Form.Control
-                                            as="select"
-                                            value={source}
-                                            onChange={(e) => setSource(e.target.value)}
-                                        >
-                                            <option value="">Select Source</option>
-                                            {sourceCities.map((city, index) => (
-                                                <option key={index} value={city}>
-                                                    {city}
-                                                </option>
-                                            ))}
-                                        </Form.Control>
-                                    </Form.Group>
+                                <Select
+    options={sourceCities.map((city, index) => ({ label: city, value: city }))}
+    defaultValue={{ label: "Select Source", value: "" }}
+    onChange={(selectedOption) => setSource(selectedOption.value)}
+    placeholder="Select Source" // Add placeholder text here
+/>
                                 </div>
                             </div>
 
