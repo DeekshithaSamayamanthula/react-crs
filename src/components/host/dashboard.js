@@ -1,7 +1,7 @@
 import HostNavbar from "./navbar";
 import './css/dashboard.css';
 import { Button, Col, Form, FormControl, InputGroup, Row, Alert } from "react-bootstrap";
-import hostImage from '../../assets/hostimage.jpg'; // Adjust the path accordingly
+import hostImage from '../../assets/hostimage.jpg';
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ function HostDashboard() {
     const navigate = useNavigate();
 
     const handlePostCar = async () => {
-        // Validate input fields
+        // Basic validation checks
         if (!carModel || !vehicleNo || !price || !fuelType || !seating || !source) {
             setWarningMessage("Please fill in all the fields");
             return;
@@ -25,18 +25,6 @@ function HostDashboard() {
             setWarningMessage(""); // Clear any previous warning message
         }
 
-        // Check for unique vehicle number
-        const isVehicleNumberUnique = await checkUniqueVehicleNumber(vehicleNo);
-        if (!isVehicleNumberUnique) {
-            setWarningMessage("Vehicle number already exists. Please use a different one.");
-            return;
-        } else {
-            setWarningMessage(""); // Clear any previous warning message
-        }
-
-        // Additional validations can be added based on your requirements, e.g., checking if the price is a valid number.
-
-        // const customerId = localStorage.getItem('id');
         const uid = localStorage.getItem("id");
         const hid = parseInt(uid, 10) + 1;
 
@@ -46,7 +34,6 @@ function HostDashboard() {
             navigate('/auth/login');
         }
 
-        // Create booking details object with values from the state
         const postcarDetails = {
             carModel: carModel.trim(),
             vehicleNo: vehicleNo.trim(),
@@ -56,7 +43,6 @@ function HostDashboard() {
             source: source.trim()
         };
 
-        // Make a POST request to book the car with customerId, carId, and bookingDetails
         axios.post(`http://localhost:9191/car/post/${hid}`, postcarDetails)
             .then(response => {
                 console.log('Posted Car successful:', response.data);
@@ -67,17 +53,6 @@ function HostDashboard() {
                 console.error('Error posting the car:', error);
                 // Handle the error as needed
             });
-    };
-
-    const checkUniqueVehicleNumber = async (vehicleNumber) => {
-        try {
-            const response = await axios.get(`http://localhost:9191/car/checkUniqueVehicleNumber/${vehicleNumber}`);
-            return response.data.isUnique;
-        } catch (error) {
-            console.error('Error checking vehicle number uniqueness:', error);
-            // Handle the error as needed
-            return false;
-        }
     };
 
     return (
@@ -126,12 +101,18 @@ function HostDashboard() {
                         </Col>
                         <Col md={4}>
                             <InputGroup className="mb-4">
-                                <FormControl
-                                    placeholder="Enter Fuel Type"
+                                <Form.Control
+                                    as="select"
                                     value={fuelType}
                                     onChange={(e) => setFuelType(e.target.value)}
                                     style={{ backgroundColor: 'rgba(128, 128, 128, 0.7)', color: "white", fontWeight: "500" }}
-                                />
+                                >
+                                    <option value="">Select Fuel Type</option>
+                                    <option value="petrol">Petrol</option>
+                                    <option value="diesel">Diesel</option>
+                                    <option value="gas">Gas</option>
+                                    <option value="electrical">Electrical</option>
+                                </Form.Control>
                             </InputGroup>
                         </Col>
                         <Col md={4}>
