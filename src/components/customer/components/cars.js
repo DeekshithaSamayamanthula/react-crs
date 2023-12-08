@@ -73,7 +73,7 @@ function Cars() {
         if (!cid) {
             console.error('Customer ID not found in localStorage');
             // Handle the absence of customerId as needed
-           navigate('/auth/login')
+           navigate('/auth/login')  
         }
     
         // Create booking details object with values from the state
