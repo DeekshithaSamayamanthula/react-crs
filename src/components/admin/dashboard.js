@@ -9,6 +9,7 @@ function AdminDashboard() {
   const [hosts, setHosts] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [carDetails, setCarDetails] = useState(null);
+  const [customerDetails, setCustomerDetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -49,8 +50,26 @@ function AdminDashboard() {
       });
   };
 
+  const handleViewCustomers = (carId) => {
+    setLoading(true);
+
+    // Fetch customers by car from the API
+    axios.get(`http://localhost:9191/admin/customers/${carId}`)
+      .then(response => response.data)
+      .then(data => {
+        setCustomerDetails(data);
+        setShowModal(true);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching customers by car:', error);
+        setLoading(false);
+      });
+  };
+
   const handleCloseModal = () => {
     setCarDetails(null);
+    setCustomerDetails(null);
     setShowModal(false);
   };
 
@@ -73,7 +92,7 @@ function AdminDashboard() {
               ))}
               {actionButton && (
                 <td key={actionButton}>
-                  <button onClick={() => handleViewCars(item.id)}>
+                  <button onClick={() => actionButton === 'View Cars' ? handleViewCars(item.id) : handleViewCustomers(item.carId)}>
                     {actionButton}
                   </button>
                 </td>
@@ -95,7 +114,7 @@ function AdminDashboard() {
             <Accordion.Item eventKey="0">
               <Accordion.Header onClick={() => setActiveTab('Cars')}>Cars</Accordion.Header>
               <Accordion.Body>
-                {activeTab === 'Cars' && renderTable(cars, ['carModel', 'vehicleNo', 'fuelType', 'seating', 'price', 'source'])}
+                {activeTab === 'Cars' && renderTable(cars, ['carModel', 'vehicleNo', 'fuelType', 'seating', 'price', 'source'], 'View Booked Customers')}
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
@@ -114,16 +133,16 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* Modal for Car Details */}
+      {/* Modal for Car and Customer Details */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Car Details</Modal.Title>
+          <Modal.Title>{carDetails ? 'Car Details' : 'Customer Details'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            carDetails && (
+            carDetails ? (
               <Table striped bordered hover>
                 <thead>
                   <tr>
@@ -146,6 +165,33 @@ function AdminDashboard() {
                   ))}
                 </tbody>
               </Table>
+            ) : (
+              customerDetails && (
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>From Date</th>
+                      <th>To Date</th>
+                      <th>Price</th>
+                      <th>Source</th>
+                      <th>Destination</th>
+                      <th>Customer Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {customerDetails.map((customer, index) => (
+                      <tr key={index}>
+                        <td>{customer.fromDate}</td>
+                        <td>{customer.toDate}</td>
+                        <td>{customer.price}</td>
+                        <td>{customer.source}</td>
+                        <td>{customer.destination}</td>
+                        <td>{customer.customer.name}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )
             )
           )}
         </Modal.Body>
