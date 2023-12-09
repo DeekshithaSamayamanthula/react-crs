@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Accordion, Table, Modal, Button } from 'react-bootstrap';
+import { Accordion, Table, Modal, Button, Alert } from 'react-bootstrap';
 import AdminNavbar from './navbar';
 import axios from 'axios';
 
@@ -13,6 +13,7 @@ function AdminDashboard() {
   const [bookingDetails, setBookingDetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [noDataMessage, setNoDataMessage] = useState('');
 
   useEffect(() => {
     // Fetch cars
@@ -38,7 +39,7 @@ function AdminDashboard() {
     setLoading(true);
 
     // Fetch cars by host from the API
-    const response = axios.get(`http://localhost:9191/admin/getall/carsbyhost/${hostId}`)
+    axios.get(`http://localhost:9191/admin/getall/carsbyhost/${hostId}`)
       .then(response => response.data)
       .then(data => {
         setCarDetails(data);
@@ -72,7 +73,7 @@ function AdminDashboard() {
     setLoading(true);
 
     // Fetch bookings by customer from the API
-    axios.get(`http://localhost:9191/customer/bookings/${customerId}`)
+    axios.get(`http://localhost:9191/customer/bookings/`+customerId)
       .then(response => response.data)
       .then(data => {
         setBookingDetails(data);
@@ -94,40 +95,51 @@ function AdminDashboard() {
 
   const renderTable = (data, headers, actionButton) => {
     return (
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            {headers.map(header => (
-              <th key={header}>{header}</th>
-            ))}
-            {actionButton && <th key={actionButton}>{actionButton}</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
+      <>
+        {noDataMessage && <Alert variant="info">{noDataMessage}</Alert>}
+        <Table striped bordered hover>
+          <thead>
+            <tr>
               {headers.map(header => (
-                <td key={header}>{item[header]}</td>
+                <th key={header}>{header}</th>
               ))}
-              {actionButton && (
-                <td key={actionButton}>
-                  <button onClick={() => {
-                    if (actionButton === 'View Cars') {
-                      handleViewCars(item.id);
-                    } else if (actionButton === 'View Booked Customers') {
-                      handleViewCustomers(item.carId);
-                    } else if (actionButton === 'View Bookings') {
-                      handleViewBookings(item.id);
-                    }
-                  }}>
-                    {actionButton}
-                  </button>
-                </td>
-              )}
+              {actionButton && <th key={actionButton}>{actionButton}</th>}
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {data.length === 0 ? (
+              <tr>
+                <td colSpan={headers.length + (actionButton ? 1 : 0)}>
+                  No records found.
+                </td>
+              </tr>
+            ) : (
+              data.map((item, index) => (
+                <tr key={index}>
+                  {headers.map(header => (
+                    <td key={header}>{item[header]}</td>
+                  ))}
+                  {actionButton && (
+                    <td key={actionButton}>
+                      <button onClick={() => {
+                        if (actionButton === 'View Cars') {
+                          handleViewCars(item.id);
+                        } else if (actionButton === 'View Booked Customers') {
+                          handleViewCustomers(item.carId);
+                        } else if (actionButton === 'View Bookings') {
+                          handleViewBookings(item.id);
+                        }
+                      }}>
+                        {actionButton}
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </Table>
+      </>
     );
   };
 
@@ -141,7 +153,7 @@ function AdminDashboard() {
             <Accordion.Item eventKey="0">
               <Accordion.Header onClick={() => setActiveTab('Cars')}>Cars</Accordion.Header>
               <Accordion.Body>
-                {activeTab === 'Cars' && renderTable(cars, ['carModel', 'vehicleNo', 'fuelType', 'seating', 'price', 'source'], 'Booked Customers')}
+                {activeTab === 'Cars' && renderTable(cars, ['carModel', 'vehicleNo', 'fuelType', 'seating', 'price', 'source'], 'View Booked Customers')}
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
@@ -165,7 +177,7 @@ function AdminDashboard() {
         <Modal.Header closeButton>
           <Modal.Title>{carDetails ? 'Car Details' : (customerDetails ? 'Customer Details' : 'Booking Details')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ maxHeight: '400px', overflowY: 'auto',overflowX: 'auto' }}>
+        <Modal.Body style={{ maxHeight: '400px', overflowY: 'auto', overflowX: 'auto' }}>
           {loading ? (
             <p>Loading...</p>
           ) : (
@@ -178,18 +190,28 @@ function AdminDashboard() {
                     <th>Seating</th>
                     <th>Price</th>
                     <th>Source</th>
+                    <th>Fuel Type</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {carDetails.map((car, index) => (
-                    <tr key={index}>
-                      <td>{car.carModel}</td>
-                      <td>{car.vehicleNo}</td>
-                      <td>{car.seating}</td>
-                      <td>{car.price}</td>
-                      <td>{car.source}</td>
+                  {carDetails.length === 0 ? (
+                    <tr>
+                      <td colSpan={5}>
+                        No cars found.
+                      </td>
                     </tr>
-                  ))}
+                  ) : (
+                    carDetails.map((car, index) => (
+                      <tr key={index}>
+                        <td>{car.carModel}</td>
+                        <td>{car.vehicleNo}</td>
+                        <td>{car.seating}</td>
+                        <td>{car.price}</td>
+                        <td>{car.source}</td>
+                        <td>{car.fuelType}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             ) : (
@@ -208,22 +230,30 @@ function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {customerDetails.map((customer, index) => (
-                      <tr key={index}>
-                        <td>{customer.fromDate}</td>
-                        <td>{customer.toDate}</td>
-                        <td>{customer.price}</td>
-                        <td>{customer.source}</td>
-                        <td>{customer.destination}</td>
-                        <td>{customer.customer.name}</td>
-                        <td>{customer.customer.age}</td>
-                        <td>{customer.customer.phoneNo}</td>
+                    {customerDetails.length === 0 ? (
+                      <tr>
+                        <td colSpan={8}>
+                          No Bookings found.
+                        </td>
                       </tr>
-                    ))}
+                    ) : (
+                      customerDetails.map((customer, index) => (
+                        <tr key={index}>
+                          <td>{customer.fromDate}</td>
+                          <td>{customer.toDate}</td>
+                          <td>{customer.price}</td>
+                          <td>{customer.source}</td>
+                          <td>{customer.destination}</td>
+                          <td>{customer.customer.name}</td>
+                          <td>{customer.customer.age}</td>
+                          <td>{customer.customer.phoneNo}</td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </Table>
               ) : (
-                bookingDetails && (
+                bookingDetails ? (
                   <Table striped bordered hover>
                     <thead>
                       <tr>
@@ -239,22 +269,30 @@ function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {bookingDetails.map((booking, index) => (
-                        <tr key={index}>
-                          <td>{booking.fromDate}</td>
-                          <td>{booking.toDate}</td>
-                          <td>{booking.price}</td>
-                          <td>{booking.source}</td>
-                          <td>{booking.destination}</td>
-                          <td>{booking.car.carModel}</td>
-                          <td>{booking.car.vehicleNo}</td>
-                          <td>{booking.car.fuelType}</td>
-                          <td>{booking.car.seating}</td>
+                      {bookingDetails.length === 0 ? (
+                        <tr>
+                          <td colSpan={9}>
+                            No bookings found.
+                          </td>
                         </tr>
-                      ))}
+                      ) : (
+                        bookingDetails.map((booking, index) => (
+                          <tr key={index}>
+                            <td>{booking.fromDate}</td>
+                            <td>{booking.toDate}</td>
+                            <td>{booking.price}</td>
+                            <td>{booking.source}</td>
+                            <td>{booking.destination}</td>
+                            <td>{booking.car.carModel}</td>
+                            <td>{booking.car.vehicleNo}</td>
+                            <td>{booking.car.fuelType}</td>
+                            <td>{booking.car.seating}</td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </Table>
-                )
+                ) : null
               )
             )
           )}
