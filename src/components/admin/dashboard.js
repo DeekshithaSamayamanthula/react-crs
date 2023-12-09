@@ -10,6 +10,7 @@ function AdminDashboard() {
   const [customers, setCustomers] = useState([]);
   const [carDetails, setCarDetails] = useState(null);
   const [customerDetails, setCustomerDetails] = useState(null);
+  const [bookingDetails, setBookingDetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +38,7 @@ function AdminDashboard() {
     setLoading(true);
 
     // Fetch cars by host from the API
-    axios.get(`http://localhost:9191/admin/getall/carsbyhost/${hostId}`)
+    const response = axios.get(`http://localhost:9191/admin/getall/carsbyhost/${hostId}`)
       .then(response => response.data)
       .then(data => {
         setCarDetails(data);
@@ -67,9 +68,27 @@ function AdminDashboard() {
       });
   };
 
+  const handleViewBookings = (customerId) => {
+    setLoading(true);
+
+    // Fetch bookings by customer from the API
+    axios.get(`http://localhost:9191/customer/bookings/${customerId}`)
+      .then(response => response.data)
+      .then(data => {
+        setBookingDetails(data);
+        setShowModal(true);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching bookings by customer:', error);
+        setLoading(false);
+      });
+  };
+
   const handleCloseModal = () => {
     setCarDetails(null);
     setCustomerDetails(null);
+    setBookingDetails(null);
     setShowModal(false);
   };
 
@@ -92,7 +111,15 @@ function AdminDashboard() {
               ))}
               {actionButton && (
                 <td key={actionButton}>
-                  <button onClick={() => actionButton === 'View Cars' ? handleViewCars(item.id) : handleViewCustomers(item.carId)}>
+                  <button onClick={() => {
+                    if (actionButton === 'View Cars') {
+                      handleViewCars(item.id);
+                    } else if (actionButton === 'View Booked Customers') {
+                      handleViewCustomers(item.carId);
+                    } else if (actionButton === 'View Bookings') {
+                      handleViewBookings(item.id);
+                    }
+                  }}>
                     {actionButton}
                   </button>
                 </td>
@@ -114,7 +141,7 @@ function AdminDashboard() {
             <Accordion.Item eventKey="0">
               <Accordion.Header onClick={() => setActiveTab('Cars')}>Cars</Accordion.Header>
               <Accordion.Body>
-                {activeTab === 'Cars' && renderTable(cars, ['carModel', 'vehicleNo', 'fuelType', 'seating', 'price', 'source'], 'View Booked Customers')}
+                {activeTab === 'Cars' && renderTable(cars, ['carModel', 'vehicleNo', 'fuelType', 'seating', 'price', 'source'], 'Booked Customers')}
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
@@ -126,19 +153,19 @@ function AdminDashboard() {
             <Accordion.Item eventKey="2">
               <Accordion.Header onClick={() => setActiveTab('Customers')}>Customers</Accordion.Header>
               <Accordion.Body>
-                {activeTab === 'Customers' && renderTable(customers, ['id', 'name', 'age', 'phoneNo'])}
+                {activeTab === 'Customers' && renderTable(customers, ['id', 'name', 'age', 'phoneNo'], 'View Bookings')}
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         </div>
       </div>
 
-      {/* Modal for Car and Customer Details */}
+      {/* Modal for Car, Customer, and Booking Details */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{carDetails ? 'Car Details' : 'Customer Details'}</Modal.Title>
+          <Modal.Title>{carDetails ? 'Car Details' : (customerDetails ? 'Customer Details' : 'Booking Details')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ maxHeight: '400px', overflowY: 'auto',overflowX: 'auto' }}>
           {loading ? (
             <p>Loading...</p>
           ) : (
@@ -166,7 +193,7 @@ function AdminDashboard() {
                 </tbody>
               </Table>
             ) : (
-              customerDetails && (
+              customerDetails ? (
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -176,6 +203,8 @@ function AdminDashboard() {
                       <th>Source</th>
                       <th>Destination</th>
                       <th>Customer Name</th>
+                      <th>Customer Email</th>
+                      <th>Customer PhoneNo</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -187,10 +216,45 @@ function AdminDashboard() {
                         <td>{customer.source}</td>
                         <td>{customer.destination}</td>
                         <td>{customer.customer.name}</td>
+                        <td>{customer.customer.age}</td>
+                        <td>{customer.customer.phoneNo}</td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
+              ) : (
+                bookingDetails && (
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Price</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Car Model</th>
+                        <th>Vehicle No</th>
+                        <th>Fuel Type</th>
+                        <th>Seating</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookingDetails.map((booking, index) => (
+                        <tr key={index}>
+                          <td>{booking.fromDate}</td>
+                          <td>{booking.toDate}</td>
+                          <td>{booking.price}</td>
+                          <td>{booking.source}</td>
+                          <td>{booking.destination}</td>
+                          <td>{booking.car.carModel}</td>
+                          <td>{booking.car.vehicleNo}</td>
+                          <td>{booking.car.fuelType}</td>
+                          <td>{booking.car.seating}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )
               )
             )
           )}
