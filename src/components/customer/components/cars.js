@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavbarComponent from "./navbar";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Form, FormGroup, FormControl, Container, Row, Col } from "react-bootstrap";
+import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Form, FormGroup, FormControl, Container, Row, Col, Pagination } from "react-bootstrap";
 
 function Cars() {
     const [source, setSource] = useState("");
@@ -14,6 +14,8 @@ function Cars() {
     const [selectedCar, setSelectedCar] = useState(null);
     const [totalPrice, setTotalPrice] = useState(null);
     const [noOfDays, setNoOfDays] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const carsPerPage = 3;
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -66,25 +68,21 @@ function Cars() {
     }, [selectedCar, fromDate, toDate]);
 
     const handleBookCar = () => {
-        // const customerId = localStorage.getItem('id');
         const uid = localStorage.getItem("id");
-        const cid = parseInt(uid,10) + 1;
-        
+        const cid = parseInt(uid, 10) + 1;
+
         if (!cid) {
             console.error('Customer ID not found in localStorage');
-            // Handle the absence of customerId as needed
-           navigate('/auth/login')  
+            navigate('/auth/login');
         }
-    
-        // Create booking details object with values from the state
+
         const bookingDetails = [{
             source: source.trim(),
             destination: destination.trim(),
             fromDate: fromDate.trim(),
             toDate: toDate.trim()
         }];
-        
-        // Make a POST request to book the car with customerId, carId, and bookingDetails
+
         axios.post(`http://localhost:9191/bookcar/${cid}/${carId}`, bookingDetails)
             .then(response => {
                 console.log('Booking successful:', response.data);
@@ -105,6 +103,12 @@ function Cars() {
         setSelectedCar(car);
     }
 
+    const indexOfLastCar = currentPage * carsPerPage;
+    const indexOfFirstCar = indexOfLastCar - carsPerPage;
+    const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div>
             <NavbarComponent />
@@ -113,7 +117,6 @@ function Cars() {
                     <Row className="justify-content-center">
                         <Col md={6}>
                             <div style={{ border: "1px solid darkmagenta", padding: "15px", borderRadius: "10px" }}>
-                                
                                 <h4 style={{ fontWeight: "bold" }}>Selected Car Details</h4>
                                 <Form>
                                     <FormGroup>
@@ -121,7 +124,7 @@ function Cars() {
                                         <FormControl type="text" value={selectedCar.carModel} readOnly />
                                     </FormGroup>
                                     <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Vehical No:</label>
+                                        <label style={{ fontWeight: "bold" }}>Vehicle No:</label>
                                         <FormControl type="text" value={selectedCar.vehicleNo} readOnly />
                                     </FormGroup>
                                     <FormGroup>
@@ -155,33 +158,42 @@ function Cars() {
                         </Col>
                     </Row>
                 ) : (
-                    <Row className="justify-content-center">
-                        <h3 style={{ color: "Green", fontWeight: "bold", textAlign: "center" }}> Available Cars</h3>
-                        {cars.map((p, index) => (
-                            <Col key={index} md={4} className="mb-4">
-                                <Card
-                                    style={{
-                                        width: "25rem",
-                                        height: "18rem",
-                                        padding: "1px",
-                                        borderColor: "darkmagenta"
-                                    }}
-                                >
-                                    <CardBody>
-                                        <CardTitle><h3>{p.carModel}</h3></CardTitle>
-                                        <CardSubtitle style={{ color: "red", textAlign: "center" }}>
-                                            Rent Price(per day): INR. {p.price}
-                                        </CardSubtitle>
-                                        <br></br>
-                                        <CardText style={{ color: "black", textAlign: "center", fontWeight: "500" }}>vehicleNo:{p.vehicleNo}</CardText>
-                                        <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>seating:{p.seating}</CardText>
-                                        <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>source:{p.source}</CardText>
-                                        <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
+                    <>
+                        <Row className="justify-content-center">
+                            <h3 style={{ color: "Green", fontWeight: "bold", textAlign: "center" }}> Available Cars</h3>
+                            {currentCars.map((p, index) => (
+                                <Col key={index} md={4} className="mb-4">
+                                    <Card
+                                        style={{
+                                            width: "25rem",
+                                            height: "18rem",
+                                            padding: "1px",
+                                            borderColor: "darkmagenta"
+                                        }}
+                                    >
+                                        <CardBody>
+                                            <CardTitle><h3>{p.carModel}</h3></CardTitle>
+                                            <CardSubtitle style={{ color: "red", textAlign: "center" }}>
+                                                Rent Price(per day): INR. {p.price}
+                                            </CardSubtitle>
+                                            <CardText style={{ color: "black", textAlign: "center", fontWeight: "500" }}>Vehicle No: {p.vehicleNo}</CardText>
+                                            <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>Seating: {p.seating}</CardText>
+                                            <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>Source: {p.source}</CardText>
+                                            <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+
+                        <Pagination className="justify-content-center">
+                            {[...Array(Math.ceil(cars.length / carsPerPage)).keys()].map((number) => (
+                                <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
+                                    {number + 1}
+                                </Pagination.Item>
+                            ))}
+                        </Pagination>
+                    </>
                 )}
             </Container>
         </div>

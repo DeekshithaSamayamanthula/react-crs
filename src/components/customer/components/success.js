@@ -23,7 +23,7 @@ function Success() {
             <div style={{ textAlign: "center", marginTop: "20px" }}>
                 <Link to="/customer/dashboard">
                     <button style={{ padding: "10px", fontSize: "16px" }}>
-                        Back to Customer Dashboard
+                        Proceed to payment
                     </button>
                 </Link>
             </div>
