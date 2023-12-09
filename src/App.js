@@ -22,6 +22,8 @@ import HostNavbar from './components/host/navbar';
 import HostSignup from './components/host/auth/signup';
 import MyCars from './components/host/mycars';
 import HostProfile from './components/host/update_profile';
+import AdminNavbar from './components/admin/navbar';
+import AdminSignup from './components/admin/auth/signup';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
       <Route path="/host/auth/signup" element={<HostSignup />}></Route>
       <Route path="/host/mycars" element={<MyCars />}></Route>
       <Route path="/host/update_profile" element={<HostProfile />}></Route>
+      <Route path="/admin/navbar" element={<AdminNavbar />}></Route>
+      <Route path="/admin/auth/signup" element={<AdminSignup />}></Route>
     </Routes>
 </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, Table } from 'react-bootstrap';
+import AdminNavbar from './navbar';
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('Cars');
@@ -29,6 +30,7 @@ function AdminDashboard() {
 
   const renderTable = (data, headers) => {
     return (
+        
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -51,6 +53,9 @@ function AdminDashboard() {
   };
 
   return (
+    <div>
+            <AdminNavbar />
+       
     <div style={{ textAlign: 'center', padding: '20px' }}>
       <h3>View </h3>
       <div style={{ border: '2px solid #ccc', borderRadius: '8px',boxShadow:'0 0 10px rgba(0, 0, 0, 0.1)', padding: '20px', maxWidth: '1000px', margin: 'auto' }}>
@@ -75,7 +80,8 @@ function AdminDashboard() {
           </Accordion.Item>
         </Accordion>
       </div>
-    </div>
+      
+    </div> </div>
   );
 }
 
