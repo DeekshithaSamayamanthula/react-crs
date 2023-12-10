@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 function AdminSignup() {
-  const [name, setName] = useState('');
+  const [adminName, setAdminName] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [admin, setAdmin] = useState('');
   const [username, setUsername] = useState('');
@@ -33,7 +33,7 @@ function AdminSignup() {
 
   const doSignUp = async () => {
     // Perform basic validations
-    if (!name || !phoneNo || !username || !email || !password) {
+    if (!adminName || !phoneNo || !username || !email || !password) {
       setMsg("Please fill in all the fields");
       return;
     }
@@ -61,7 +61,7 @@ function AdminSignup() {
  
    
     let adminObj = {
-      "name": name,
+      "adminName": adminName,
       
       "phoneNo": phoneNo,
       "email": email,
@@ -77,7 +77,13 @@ function AdminSignup() {
         navigate('/auth/login?msg="signup success"');
       })
       .catch(function (error) {
+        console.log("error",error.response.data)
+        if(error.response.data === "Email already exists."){
+          setMsg("Email already exists.please try with different Email");
+        }
+        else{
         setMsg("Issue in processing sign up..");
+        }
       });
   };
 
@@ -104,7 +110,7 @@ function AdminSignup() {
                     <input
                       type="text"
                       className="form-control"
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => setAdminName(e.target.value)}
                     />
                   </div>
 

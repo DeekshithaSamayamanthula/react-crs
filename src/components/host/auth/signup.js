@@ -64,7 +64,13 @@ function HostSignup() {
           navigate('/auth/login?msg="signup success"');
         })
         .catch(function (error) {
+          console.log("error",error.response.data)
+          if(error.response.data === "Email already exists."){
+            setMsg("Email already exists.please try with different Email");
+          }
+          else{
           setMsg("Issue in processing sign up..");
+          }
         });
     };
   
