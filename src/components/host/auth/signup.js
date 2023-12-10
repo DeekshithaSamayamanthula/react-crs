@@ -17,16 +17,7 @@ function HostSignup() {
     const [msg, setMsg] = useState('');
     const navigate = useNavigate();
   
-    const checkUniqueEmail = async () => {
-      try {
-        // Check for unique email
-        const response = await axios.get(`http://localhost:9191/host/check-unique-hostemail?hostemail=${hostEmail}`);
-        return response.data.isUnique; // Assuming the server responds with a property "isUnique"
-      } catch (error) {
-        console.error("Error checking email uniqueness:", error);
-        return false; // Assume non-unique in case of an error
-      }
-    };
+    
   
     
   
@@ -37,13 +28,25 @@ function HostSignup() {
         return;
       }
   
-      // Check for unique email
-    //   const isEmailUnique = await checkUniqueEmail();
-    //   if (!isEmailUnique) {
-    //     setMsg("Email already exists. Please use a different one.");
-    //     return;
-    //   }
+      if (hostContact.length !== 10 ) {
+        setMsg("Please enter a valid phone number");
+        return;
+      }
   
+      // Email validation using a simple regex pattern
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(hostEmail)) {
+          setMsg("Please enter a valid email address");
+          return;
+      }
+  
+      // Password validation
+      // Minimum 8 characters, at least one uppercase letter, one lowercase letter, one digit, and one special character
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
+          setMsg("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character");
+          return;
+      }
      
       let hostObj = {
         "hostName":hostName,
