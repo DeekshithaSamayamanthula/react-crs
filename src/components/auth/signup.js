@@ -27,8 +27,25 @@ function Signup() {
       setMsg("Please fill in all the fields");
       return;
     }
+    if (phoneNo.length !== 10 ) {
+      setMsg("Please enter a valid phone number");
+      return;
+    }
 
-   
+    // Email validation using a simple regex pattern
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        setMsg("Please enter a valid email address");
+        return;
+    }
+
+    // Password validation
+    // Minimum 8 characters, at least one uppercase letter, one lowercase letter, one digit, and one special character
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+        setMsg("Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character");
+        return;
+    }
 
    
     let customerObj = {
