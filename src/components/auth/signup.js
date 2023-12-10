@@ -18,16 +18,6 @@ function Signup() {
   const [msg, setMsg] = useState('');
   const navigate = useNavigate();
 
-  const checkUniqueEmail = async () => {
-    try {
-      // Check for unique email
-      const response = await axios.get(`http://localhost:9191/customer/check-unique-email?email=${email}`);
-      return response.data.isUnique; // Assuming the server responds with a property "isUnique"
-    } catch (error) {
-      console.error("Error checking email uniqueness:", error);
-      return false; // Assume non-unique in case of an error
-    }
-  };
 
   
 
@@ -38,12 +28,7 @@ function Signup() {
       return;
     }
 
-    // Check for unique email
-    const isEmailUnique = await checkUniqueEmail();
-    if (!isEmailUnique) {
-      setMsg("Email already exists. Please use a different one.");
-      return;
-    }
+   
 
    
     let customerObj = {

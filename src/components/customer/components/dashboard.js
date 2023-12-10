@@ -6,6 +6,7 @@ import axios from "axios";
 import './dashboard.css';
 import Sidebar from "./sidebar";
 import Select from 'react-select'; // Import the react-select component
+import { FaSearch } from "react-icons/fa";
 
 function CustomerDashboard() {
     const [source, setSource] = useState('');
@@ -39,7 +40,8 @@ function CustomerDashboard() {
             })
             .catch(error => {
                 setMsg('Error in Fetching available cars');
-                console.error('Error fetching available cars:', error);
+                alert("no cars for requested source")
+                // console.error('Error fetching available cars:', error);
             });
     }
 
@@ -152,7 +154,7 @@ function CustomerDashboard() {
                             <div className="form-group row">
                                 <div className="col-md-6"></div>
                                 <div className="col-md-6 mb-4" style={{ textAlign: "center" }}>
-                                    <Button as={Link} to={`/customer/cars?source=${source}`} onClick={handleAvailableCars} variant="success">Search Cars</Button>
+                                    <Button as={Link} to={`/customer/cars?source=${source}`} onClick={handleAvailableCars} variant="success"> Search Cars</Button>
                                 </div>
                             </div>
                         </form>

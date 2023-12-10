@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Nav, Navbar, Form, Button } from "react-bootstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useNavigate } from "react-router";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaSignOutAlt, FaQuestionCircle, FaUserPlus, FaHome } from "react-icons/fa";
 
 function NavbarComponent() {
   const navigate = useNavigate();
@@ -57,12 +57,12 @@ function NavbarComponent() {
             <h4>CarRent</h4>
           </Navbar.Brand>
           <Navbar.Brand style={{ color: "white" }} onClick={() => navigate('/')}>
-            <h4>🏠Home</h4>
+            <h4><FaHome /> Home</h4>
           </Navbar.Brand>
 
           <Nav className="me-auto">
             <Nav.Link style={{ color: "white" }} onClick={() => navigate('/customer/dashboard')}>
-              <h4>CustomerDashboard</h4>
+              <h4>Customer Dashboard</h4>
             </Nav.Link>
           </Nav>
 
@@ -84,11 +84,11 @@ function NavbarComponent() {
 
           <Nav className="justify-content-end">
             <button className="btn btn-info" onClick={() => navigate('/help')}>
-              Help
+              <FaQuestionCircle /> Help
             </button>
             &nbsp;
             <button className="btn btn-warning" onClick={() => navigate('/host/auth/signup')}>
-              Sign up as Host
+              <FaUserPlus /> Sign up as Host
             </button>
             &nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -107,7 +107,7 @@ function NavbarComponent() {
                     navigate('/auth/login?msg=you have logged out..');
                   }}
                 >
-                  Logout
+                 <FaSignOutAlt /> Logout
                 </button>
               </React.Fragment>
             ) : (

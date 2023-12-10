@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 
 
 
@@ -109,7 +110,7 @@ const HostProfile = () => {
 </Form.Group>
 
         <Button variant="primary" type="submit">
-          Update Profile
+        <FaEdit /> Update Profile
         </Button>
       </Form>
     </Container>
