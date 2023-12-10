@@ -23,7 +23,7 @@ function AdminNavbar() {
         <Nav className="justify-content-end">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Button className="btn btn-warning btn-sm">
-            <Nav.Link href="/host/update_profile" style={buttonStyle}>
+            <Nav.Link href="/admin/profile" style={buttonStyle}>
               <FontAwesomeIcon icon={faUser} /> Profile
             </Nav.Link>
           </Button> &nbsp;&nbsp;&nbsp;

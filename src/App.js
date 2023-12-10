@@ -24,6 +24,7 @@ import MyCars from './components/host/mycars';
 import HostProfile from './components/host/update_profile';
 import AdminNavbar from './components/admin/navbar';
 import AdminSignup from './components/admin/auth/signup';
+import AdminProfile from './components/admin/profile';
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
       <Route path="/host/update_profile" element={<HostProfile />}></Route>
       <Route path="/admin/navbar" element={<AdminNavbar />}></Route>
       <Route path="/admin/auth/signup" element={<AdminSignup />}></Route>
+      <Route path="/admin/profile" element={<AdminProfile />}></Route>
+
     </Routes>
 </div>
   );

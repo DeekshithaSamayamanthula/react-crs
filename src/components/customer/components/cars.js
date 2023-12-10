@@ -44,13 +44,13 @@ function Cars() {
         if (noOfDays <= 1) {
             return actualPrice;
         } else if (noOfDays === 2) {
-            return actualPrice * 1.2;
+            return actualPrice * 1.3;
         } else if (noOfDays >= 3 && noOfDays <= 4) {
-            return actualPrice * 1.4;
-        } else if (noOfDays >= 5 && noOfDays <= 10) {
-            return actualPrice * 1.6;
-        } else {
             return actualPrice * 1.5;
+        } else if (noOfDays >= 5 && noOfDays <= 10) {
+            return actualPrice * 1.7;
+        } else {
+            return actualPrice * 1.6;
         }
     };
 
