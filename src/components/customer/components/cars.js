@@ -86,7 +86,6 @@ function Cars() {
         axios.post(`http://localhost:9191/bookcar/${cid}/${carId}`, bookingDetails)
             .then(response => {
                 console.log('Booking successful:', response.data);
-                alert("Booking success");
                 navigate(`/customer/success`);
             })
             .catch(error => {
@@ -118,10 +117,14 @@ function Cars() {
                         <Col md={6}>
                             <div style={{ border: "1px solid darkmagenta", padding: "15px", borderRadius: "10px" }}>
                                 <h4 style={{ fontWeight: "bold" }}>Selected Car Details</h4>
-                                <Form>
-                                    <FormGroup>
+                                <Form className="mx-auto w-50">
+                                    <FormGroup >
                                         <label style={{ fontWeight: "bold" }}>Car Model:</label>
                                         <FormControl type="text" value={selectedCar.carModel} readOnly />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <label style={{ fontWeight: "bold" }}>Fuel Type:</label>
+                                        <FormControl type="text" value={selectedCar.fuelType} readOnly />
                                     </FormGroup>
                                     <FormGroup>
                                         <label style={{ fontWeight: "bold" }}>Vehicle No:</label>
@@ -179,6 +182,7 @@ function Cars() {
                                             <CardText style={{ color: "black", textAlign: "center", fontWeight: "500" }}>Vehicle No: {p.vehicleNo}</CardText>
                                             <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>Seating: {p.seating}</CardText>
                                             <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>Source: {p.source}</CardText>
+                                            <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>Fuel Type: {p.fuelType}</CardText>
                                             <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
                                         </CardBody>
                                     </Card>

@@ -33,7 +33,7 @@ function AdminDashboard() {
       .then(response => response.json())
       .then(data => setCustomers(data))
       .catch(error => console.error('Error fetching customers:', error));
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+  }, []); 
 
   const handleViewCars = (hostId) => {
     setLoading(true);

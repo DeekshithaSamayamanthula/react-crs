@@ -42,6 +42,8 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const uid = localStorage.getItem("id");
+    const cid = parseInt(uid,10) + 1;
 
     try {
       await axios.put(`http://localhost:9191/customer/update/${cid}`, customer);

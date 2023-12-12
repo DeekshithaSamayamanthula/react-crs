@@ -25,7 +25,7 @@ function AdminSignup() {
       return response.data.isUnique; // Assuming the server responds with a property "isUnique"
     } catch (error) {
       console.error("Error checking email uniqueness:", error);
-      return false; // Assume non-unique in case of an error
+      return false; 
     }
   };
 
