@@ -111,10 +111,10 @@ function Cars() {
     return (
         <div>
             <NavbarComponent />
-            <Container>
+            
                 {selectedCar ? (
-                    <Row className="justify-content-center">
-                        <Col md={6}>
+                  
+                        <Col  md={4} className="mx-auto">
                             <div style={{ border: "1px solid darkmagenta", padding: "15px", borderRadius: "10px" }}>
                                 <h4 style={{ fontWeight: "bold" }}>Selected Car Details</h4>
                                 <Form className="mx-auto w-50">
@@ -152,41 +152,44 @@ function Cars() {
                                     </FormGroup>
                                     <br />
                                     
-                                    <Button onClick={handleBack} style={{ textAlign: "left" }}>Back to See Available Cars</Button>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <Button onClick={handleBookCar} >Book Car</Button>
-                                    
+                                    <div className="d-flex justify-content-between">
+                <Button onClick={handleBack} className="text-left">Back to See Available Cars</Button>&nbsp;
+                <Button onClick={handleBookCar} className="text-right">Book Car</Button>
+            </div>
                                 </Form>
                             </div>
                         </Col>
-                    </Row>
+                   
                 ) : (
                     <>
-                        <Row className="justify-content-center">
+                        <Row >
                             <h3 style={{ color: "Green", fontWeight: "bold", textAlign: "center" }}> Available Cars</h3>
                             {currentCars.map((p, index) => (
-                                <Col key={index} md={4} className="mb-4">
-                                    <Card
-                                        style={{
-                                            width: "25rem",
-                                            height: "18rem",
-                                            padding: "1px",
-                                            borderColor: "darkmagenta"
-                                        }}
-                                    >
-                                        <CardBody>
-                                            <CardTitle><h3>{p.carModel}</h3></CardTitle>
-                                            <CardSubtitle style={{ color: "red", textAlign: "center" }}>
-                                                Rent Price(per day): INR. {p.price}
-                                            </CardSubtitle>
-                                            <CardText style={{ color: "black", textAlign: "center", fontWeight: "500" }}>Vehicle No: {p.vehicleNo}</CardText>
-                                            <CardText style={{ color: "blue", textAlign: "center", fontWeight: "500" }}>Seating: {p.seating}</CardText>
-                                            <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>Source: {p.source}</CardText>
-                                            <CardText style={{ color: "magenta", textAlign: "center", fontWeight: "500" }}>Fuel Type: {p.fuelType}</CardText>
-                                            <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
-                                        </CardBody>
-                                    </Card>
-                                </Col>
+                               
+                                   <div>
+                                   <>
+                <Card className="col-lg" style={{ backgroundColor: "", padding: '8px', width: '60%', minWidth: '300px', margin: 'auto' }}>
+  <CardBody style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div style={{ textAlign: "left", flex: 1 }}>
+      <CardTitle style={{ color: "", textAlign: "left" }}><h3>{p.carModel}</h3></CardTitle>
+    </div>
+    <div style={{ textAlign: "center", flex: 1 }}>
+      <CardText style={{ color: "black", fontWeight: "500" }}>Vehicle No: {p.vehicleNo}</CardText>
+      <CardText style={{ color: "", fontWeight: "500" }}>Seating: {p.seating}</CardText>
+      <CardText style={{ color: "", fontWeight: "500" }}>Source: {p.source}</CardText>
+    </div>
+    <div style={{ textAlign: "right", flex: 1 }}>
+      <CardText style={{ color: "", fontWeight: "500"  }}>Rent Price(per day): INR. {p.price}</CardText>
+      <CardText style={{ color: "", fontWeight: "500" }}>Fuel Type: {p.fuelType}</CardText>
+      <Button onClick={() => handleSelectCar(p)}>Select Car</Button>
+    </div>
+  </CardBody>
+</Card>
+
+  &nbsp;
+</>
+</div>
+                               
                             ))}
                         </Row>
 
@@ -199,7 +202,7 @@ function Cars() {
                         </Pagination>
                     </>
                 )}
-            </Container>
+           
         </div>
     );
 }
