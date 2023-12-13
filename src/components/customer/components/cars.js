@@ -114,51 +114,26 @@ function Cars() {
             
                 {selectedCar ? (
                   
-                        <Col  md={4} className="mx-auto">
-                            <div style={{ border: "1px solid darkmagenta", padding: "15px", borderRadius: "10px" }}>
-                                <h4 style={{ fontWeight: "bold" }}>Selected Car Details</h4>
-                                <Form className="mx-auto w-50">
-                                    <FormGroup >
-                                        <label style={{ fontWeight: "bold" }}>Car Model:</label>
-                                        <FormControl type="text" value={selectedCar.carModel} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Fuel Type:</label>
-                                        <FormControl type="text" value={selectedCar.fuelType} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Vehicle No:</label>
-                                        <FormControl type="text" value={selectedCar.vehicleNo} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Rent Price (per day):</label>
-                                        <FormControl type="text" value={`INR. ${selectedCar.price}`} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Seating:</label>
-                                        <FormControl type="text" value={selectedCar.seating} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Source:</label>
-                                        <FormControl type="text" value={selectedCar.source} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Number of Days:</label>
-                                        <FormControl type="text" value={noOfDays} readOnly />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <label style={{ fontWeight: "bold" }}>Total Price:</label>
-                                        <FormControl type="text" value={`INR. ${totalPrice || 0}`} readOnly />
-                                    </FormGroup>
-                                    <br />
-                                    
-                                    <div className="d-flex justify-content-between">
-                <Button onClick={handleBack} className="text-left">Back to See Available Cars</Button>&nbsp;
-                <Button onClick={handleBookCar} className="text-right">Book Car</Button>
-            </div>
-                                </Form>
-                            </div>
-                        </Col>
+                       <Card className="col-lg" style={{ backgroundColor: "", padding: '8px', width: '60%', minWidth: '300px', margin: 'auto' }}>
+    <CardBody style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ textAlign: "left", flex: 1 }}>
+            <CardTitle style={{ color: "", textAlign: "left" }}><h3>{selectedCar.carModel}</h3></CardTitle>
+        </div>
+        <div style={{ textAlign: "center", flex: 1 }}>
+            <CardText style={{ color: "black", fontWeight: "500" }}>Vehicle No: {selectedCar.vehicleNo}</CardText>
+            <CardText style={{ color: "", fontWeight: "500" }}>Seating: {selectedCar.seating}</CardText>
+            <CardText style={{ color: "", fontWeight: "500" }}>Source: {selectedCar.source}</CardText>
+        </div>
+        <div style={{ textAlign: "right", flex: 1 }}>
+            <CardText style={{ color: "", fontWeight: "500" }}>Rent Price(per day): INR. {selectedCar.price}</CardText>
+            <CardText style={{ color: "", fontWeight: "500" }}>Fuel Type: {selectedCar.fuelType}</CardText>
+            <CardText style={{ color: "", fontWeight: "500" }}>No of days: {noOfDays}</CardText>
+            <CardText style={{ color: "", fontWeight: "500" }}>Price:  {`INR. ${totalPrice || 0}`}</CardText>
+            <Button onClick={handleBack} className="left">Back to See Available Cars</Button>&nbsp;
+            <Button onClick={handleBookCar}>Book Car</Button>
+        </div>
+    </CardBody>
+</Card>
                    
                 ) : (
                     <>
